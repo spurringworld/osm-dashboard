@@ -33,6 +33,7 @@ export enum ListIdentifier {
   replicaSet = 'replicaSetList',
   ingress = 'ingressList',
   service = 'serviceList',
+	meshConfig = 'meshConfigList',
   serviceAccount = 'serviceAccountList',
   networkPolicy = 'networkPolicyList',
   configMap = 'configMapList',
@@ -49,6 +50,7 @@ export enum ListGroupIdentifier {
   cluster = 'clusterGroup',
   workloads = 'workloadsGroup',
   discovery = 'discoveryGroup',
+  osm = 'osmGroup',
   config = 'configGroup',
   none = 'none',
 }

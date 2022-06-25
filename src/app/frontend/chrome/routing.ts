@@ -142,6 +142,12 @@ const routes: Routes = [
         loadChildren: () => import('plugin/module').then(m => m.PluginModule),
       },
 
+      // OSM
+      {
+        path: 'meshconfig',
+        loadChildren: () => import('resource/osm/meshconfig/module').then(m => m.MeshConfigModule),
+      },
+			
       // Config group
       {
         path: 'config',
