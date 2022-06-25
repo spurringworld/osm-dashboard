@@ -26,10 +26,12 @@ import (
 	rbac "k8s.io/api/rbac/v1"
 	storage "k8s.io/api/storage/v1"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	smiaccessv1alpha3 "github.com/servicemeshinterface/smi-sdk-go/pkg/apis/access/v1alpha3"
 
 	apiextensionsclientset "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	client "k8s.io/client-go/kubernetes"
+	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
 
 	"github.com/kubernetes/dashboard/src/app/backend/api"
 )
@@ -66,6 +68,9 @@ type ResourceChannels struct {
 
 	// List and error channels to Services.
 	ServiceList ServiceListChannel
+
+	// List and error channels to TrafficTargets.
+	TrafficTargetList TrafficTargetListChannel
 
 	// List and error channels to Endpoints.
 	EndpointList EndpointListChannel
@@ -146,6 +151,39 @@ func GetServiceListChannel(client client.Interface, nsQuery *NamespaceQuery,
 	go func() {
 		list, err := client.CoreV1().Services(nsQuery.ToRequestParam()).List(context.TODO(), api.ListEverything)
 		var filteredItems []v1.Service
+		for _, item := range list.Items {
+			if nsQuery.Matches(item.ObjectMeta.Namespace) {
+				filteredItems = append(filteredItems, item)
+			}
+		}
+		list.Items = filteredItems
+		for i := 0; i < numReads; i++ {
+			channel.List <- list
+			channel.Error <- err
+		}
+	}()
+
+	return channel
+}
+
+// TrafficTargetListChannel is a list and error channels to TrafficTargets.
+type TrafficTargetListChannel struct {
+	List  chan *smiaccessv1alpha3.TrafficTargetList
+	Error chan error
+}
+
+// GetTrafficTargetListChannel returns a pair of channels to a TrafficTarget list and errors that both
+// must be read numReads times.
+func GetTrafficTargetListChannel(smiAccessClient smiaccessclientset.Interface, nsQuery *NamespaceQuery,
+	numReads int) TrafficTargetListChannel {
+
+	channel := TrafficTargetListChannel{
+		List:  make(chan *smiaccessv1alpha3.TrafficTargetList, numReads),
+		Error: make(chan error, numReads),
+	}
+	go func() {
+		list, err := smiAccessClient.AccessV1alpha3().TrafficTargets(nsQuery.ToRequestParam()).List(context.TODO(), api.ListEverything)
+		var filteredItems []smiaccessv1alpha3.TrafficTarget
 		for _, item := range list.Items {
 			if nsQuery.Matches(item.ObjectMeta.Namespace) {
 				filteredItems = append(filteredItems, item)
