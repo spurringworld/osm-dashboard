@@ -44,6 +44,7 @@ type resourceVerber struct {
 	apiExtensionsClient RESTClient
 	pluginsClient       RESTClient
 	smiAccessClient     RESTClient
+	osmConfigClient     RESTClient
 	config              *restclient.Config
 }
 
@@ -76,6 +77,8 @@ func (verber *resourceVerber) getRESTClientByType(clientType api.ClientType) RES
 		return verber.pluginsClient
 	case api.ClientTypeSmiAccessClient:
 		return verber.smiAccessClient
+	case api.ClientTypeOsmConfigClient:
+		return verber.osmConfigClient
 	default:
 		return verber.client
 	}
@@ -150,10 +153,10 @@ type RESTClient interface {
 }
 
 // NewResourceVerber creates a new resource verber that uses the given client for performing operations.
-func NewResourceVerber(client, appsClient, batchClient, betaBatchClient, autoscalingClient, storageClient, rbacClient, networkingClient, apiExtensionsClient, pluginsClient RESTClient, smiAccessClient RESTClient, config *restclient.Config) clientapi.ResourceVerber {
+func NewResourceVerber(client, appsClient, batchClient, betaBatchClient, autoscalingClient, storageClient, rbacClient, networkingClient, apiExtensionsClient, pluginsClient RESTClient, smiAccessClient RESTClient, osmConfigClient RESTClient, config *restclient.Config) clientapi.ResourceVerber {
 	return &resourceVerber{client, appsClient,
 		batchClient, betaBatchClient, autoscalingClient, storageClient, rbacClient, networkingClient, apiExtensionsClient, pluginsClient,
-		smiAccessClient, config}
+		smiAccessClient, osmConfigClient, config}
 }
 
 // Delete deletes the resource of the given kind in the given namespace with the given name.
