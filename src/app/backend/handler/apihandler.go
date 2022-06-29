@@ -72,6 +72,7 @@ import (
 	"github.com/kubernetes/dashboard/src/app/backend/resource/statefulset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/storageclass"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/traffictarget"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/osm/meshconfig"
 	"github.com/kubernetes/dashboard/src/app/backend/scaling"
 	"github.com/kubernetes/dashboard/src/app/backend/settings"
 	settingsApi "github.com/kubernetes/dashboard/src/app/backend/settings/api"
@@ -657,6 +658,12 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 			To(apiHandler.handleGetTrafficTargetList).
 			Writes(traffictarget.TrafficTargetList{}))
 
+	// OSM
+	apiV1Ws.Route(
+		apiV1Ws.GET("/meshconfig").
+			To(apiHandler.handleGetMeshConfigList).
+			Writes(meshconfig.MeshConfigList{}))
+
 	apiV1Ws.Route(
 		apiV1Ws.GET("/crd").
 			To(apiHandler.handleGetCustomResourceDefinitionList).
@@ -992,28 +999,6 @@ func (apiHandler *APIHandler) handleGetServiceEvent(request *restful.Request, re
 }
 
 func (apiHandler *APIHandler) handleGetTrafficTargetList(request *restful.Request, response *restful.Response) {
-	println("hello world")
-	println("====================================")
-
-	// smiAccessClient, err := apiHandler.cManager.SmiAccessClient(request)
-	// if err != nil {
-	// 	println("Could not initialize SMI Access client: %s", err)
-	// 	errors.HandleInternalError(response, err)
-	// 	return
-	// }
-
-	// trafficTargets, err := smiAccessClient.AccessV1alpha3().TrafficTargets("default").List(context.TODO(), metav1.ListOptions{})
-	// if err != nil {
-	// 	println("Error listing SMI TrafficTarget policies: %s", err)
-	// 	errors.HandleInternalError(response, err)
-	// 	return
-	// }
-
-	// for _, trafficTarget := range trafficTargets.Items {
-	// 	println("hello traffictarget")
-	// 	print(trafficTarget.Name)
-	// }
-
 	smiAccessClient, err := apiHandler.cManager.SmiAccessClient(request)
 	if err != nil {
 		errors.HandleInternalError(response, err)
@@ -1023,6 +1008,23 @@ func (apiHandler *APIHandler) handleGetTrafficTargetList(request *restful.Reques
 	namespace := parseNamespacePathParameter(request)
 	dataSelect := parser.ParseDataSelectPathParameter(request)
 	result, err := traffictarget.GetTrafficTargetList(smiAccessClient, namespace, dataSelect)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleGetMeshConfigList(request *restful.Request, response *restful.Response) {
+	osmConfigClient, err := apiHandler.cManager.OsmConfigClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	namespace := parseNamespacePathParameter(request)
+	dataSelect := parser.ParseDataSelectPathParameter(request)
+	result, err := meshconfig.GetMeshConfigList(osmConfigClient, namespace, dataSelect)
 	if err != nil {
 		errors.HandleInternalError(response, err)
 		return
