@@ -70,9 +70,12 @@ import (
 	"github.com/kubernetes/dashboard/src/app/backend/resource/secret"
 	resourceService "github.com/kubernetes/dashboard/src/app/backend/resource/service"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/serviceaccount"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/httproutegroup"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/traffictarget"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/statefulset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/storageclass"
+
+
 	"github.com/kubernetes/dashboard/src/app/backend/scaling"
 	"github.com/kubernetes/dashboard/src/app/backend/settings"
 	settingsApi "github.com/kubernetes/dashboard/src/app/backend/settings/api"
@@ -654,6 +657,10 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 
 	// SMI
 	apiV1Ws.Route(
+		apiV1Ws.GET("/httproutgroup").
+			To(apiHandler.handleHttpRouteGroupList).
+			Writes(httproutegroup.HttpRouteGroupList{}))
+	apiV1Ws.Route(
 		apiV1Ws.GET("/traffictarget").
 			To(apiHandler.handleGetTrafficTargetList).
 			Writes(traffictarget.TrafficTargetList{}))
@@ -995,6 +1002,23 @@ func (apiHandler *APIHandler) handleGetServiceEvent(request *restful.Request, re
 	dataSelect := parser.ParseDataSelectPathParameter(request)
 	dataSelect.MetricQuery = dataselect.StandardMetrics
 	result, err := resourceService.GetServiceEvents(k8sClient, dataSelect, namespace, name)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleHttpRouteGroupList(request *restful.Request, response *restful.Response) {
+	println("=== === === >>>>>> handleHttpRouteGroupList")
+	smiSpecsClient, err := apiHandler.cManager.SmiSpecsClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	namespace := parseNamespacePathParameter(request)
+	dataSelect := parser.ParseDataSelectPathParameter(request)
+	result, err := httproutegroup.GetHttpRouteGroupList(smiSpecsClient, namespace, dataSelect)
 	if err != nil {
 		errors.HandleInternalError(response, err)
 		return
