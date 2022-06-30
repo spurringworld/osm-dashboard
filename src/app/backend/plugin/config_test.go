@@ -26,6 +26,7 @@ import (
 	authApi "github.com/kubernetes/dashboard/src/app/backend/auth/api"
 	clientapi "github.com/kubernetes/dashboard/src/app/backend/client/api"
 	"github.com/kubernetes/dashboard/src/app/backend/plugin/client/clientset/versioned"
+	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
 	fakePluginClientset "github.com/kubernetes/dashboard/src/app/backend/plugin/client/clientset/versioned/fake"
 	v1 "k8s.io/api/authorization/v1"
 	coreV1 "k8s.io/api/core/v1"
@@ -66,8 +67,8 @@ func Test_handleConfig(t *testing.T) {
 }
 
 type fakeClientManager struct {
-	k8sClient    kubernetes.Interface
-	pluginClient versioned.Interface
+	k8sClient    	kubernetes.Interface
+	pluginClient 	versioned.Interface
 }
 
 func (cm *fakeClientManager) Client(req *restful.Request) (kubernetes.Interface, error) {
@@ -92,6 +93,10 @@ func (cm *fakeClientManager) PluginClient(req *restful.Request) (versioned.Inter
 	return cm.pluginClient, nil
 }
 
+func (cm *fakeClientManager) SmiAccessClient(req *restful.Request) (smiaccessclientset.Interface, error) {
+	panic("implement me")
+}
+
 func (cm *fakeClientManager) InsecureAPIExtensionsClient() clientset.Interface {
 	panic("implement me")
 }
@@ -101,6 +106,10 @@ func (cm *fakeClientManager) InsecurePluginClient() versioned.Interface {
 		cm.pluginClient = fakePluginClientset.NewSimpleClientset()
 	}
 	return cm.pluginClient
+}
+
+func (cm *fakeClientManager) InsecureSmiAccessClient() smiaccessclientset.Interface {
+	panic("implement me")
 }
 
 func (cm *fakeClientManager) CanI(req *restful.Request, ssar *v1.SelfSubjectAccessReview) bool {

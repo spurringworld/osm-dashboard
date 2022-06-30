@@ -92,6 +92,9 @@ func main() {
 		log.Printf("Using namespace: %s", args.Holder.GetNamespace())
 	}
 
+	println("=======================================")
+	println(args.Holder.GetKubeConfigFile())
+
 	clientManager := client.NewClientManager(args.Holder.GetKubeConfigFile(), args.Holder.GetApiServerHost())
 	versionInfo, err := clientManager.InsecureClient().Discovery().ServerVersion()
 	if err != nil {
