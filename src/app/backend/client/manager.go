@@ -33,6 +33,7 @@ import (
 	"k8s.io/client-go/tools/clientcmd/api"
 
 	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
+	smispecsclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/specs/clientset/versioned"
 
 	osmconfigclientset "github.com/openservicemesh/osm/pkg/gen/client/config/clientset/versioned"
 
@@ -94,6 +95,9 @@ type clientManager struct {
 	insecureClient kubernetes.Interface
 	// SMI Access client created without providing auth info. It uses permissions granted to
 	// service account used by dashboard or kubeconfig file if it was passed during dashboard init.
+	insecureSmiSpecsClient smispecsclientset.Interface
+	// SMI Access client created without providing auth info. It uses permissions granted to
+	// service account used by dashboard or kubeconfig file if it was passed during dashboard init.
 	insecureSmiAccessClient smiaccessclientset.Interface
 	// OSM Config client created without providing auth info. It uses permissions granted to
 	// service account used by dashboard or kubeconfig file if it was passed during dashboard init.
@@ -117,6 +121,17 @@ func (self *clientManager) Client(req *restful.Request) (kubernetes.Interface, e
 	}
 
 	return self.InsecureClient(), nil
+}
+
+func (self *clientManager) SmiSpecsClient(req *restful.Request) (smispecsclientset.Interface, error) {
+	if req == nil {
+		return nil, errors.NewBadRequest("request can not be nil")
+	}
+
+	if self.isSecureModeEnabled(req) {
+		return self.secureSmiSpecsClient(req)
+	}
+	return self.InsecureSmiSpecsClient(), nil
 }
 
 func (self *clientManager) SmiAccessClient(req *restful.Request) (smiaccessclientset.Interface, error) {
@@ -207,6 +222,13 @@ func (self *clientManager) InsecureAPIExtensionsClient() apiextensionsclientset.
 // if it was passed during dashboard init.
 func (self *clientManager) InsecurePluginClient() pluginclientset.Interface {
 	return self.insecurePluginClient
+}
+
+// InsecureSmiSpecsClient returns plugin client that was created without providing
+// auth info. It uses permissions granted to service account used by dashboard or kubeconfig file
+// if it was passed during dashboard init.
+func (self *clientManager) InsecureSmiSpecsClient() smispecsclientset.Interface {
+	return self.insecureSmiSpecsClient
 }
 
 // InsecureSmiAccessClient returns plugin client that was created without providing
@@ -499,6 +521,20 @@ func (self *clientManager) secureClient(req *restful.Request) (kubernetes.Interf
 	return client, nil
 }
 
+func (self *clientManager) secureSmiSpecsClient(req *restful.Request) (smispecsclientset.Interface, error) {
+	cfg, err := self.secureConfig(req)
+	if err != nil {
+		return nil, err
+	}
+
+	client, err := smispecsclientset.NewForConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return client, nil
+}
+
 func (self *clientManager) secureSmiAccessClient(req *restful.Request) (smiaccessclientset.Interface, error) {
 	cfg, err := self.secureConfig(req)
 	if err != nil {
@@ -627,6 +663,11 @@ func (self *clientManager) initInsecureClients() {
 		panic(err)
 	}
 
+	smispecsclient, err := smispecsclientset.NewForConfig(self.insecureConfig)
+	if err != nil {
+		panic(err)
+	}
+
 	smiaccessclient, err := smiaccessclientset.NewForConfig(self.insecureConfig)
 	if err != nil {
 		panic(err)
@@ -635,6 +676,7 @@ func (self *clientManager) initInsecureClients() {
 	self.insecureClient = k8sClient
 	self.insecureAPIExtensionsClient = apiextensionsclient
 	self.insecurePluginClient = pluginclient
+	self.insecureSmiSpecsClient = smispecsclient
 	self.insecureSmiAccessClient = smiaccessclient
 }
 
