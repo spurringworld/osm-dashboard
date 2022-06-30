@@ -61,3 +61,4 @@ export const TRIGGER_DEFAULT_ACTIONBAR = {
   component: TriggerDefaultActionbar,
   outlet: 'actionbar',
 };
+

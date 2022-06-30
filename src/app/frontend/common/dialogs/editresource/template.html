@@ -21,9 +21,11 @@ limitations under the License.
     <mat-button-toggle [value]="modes.YAML"
                        [checked]="true">YAML</mat-button-toggle>
     <mat-button-toggle [value]="modes.JSON">JSON</mat-button-toggle>
+    <mat-button-toggle value="FORM">FORM</mat-button-toggle>
   </mat-button-toggle-group>
-
-  <kd-text-input [(text)]="text"
+  <kd-dialog-form *ngIf="getSelectedMode() == 'FORM'"></kd-dialog-form>
+  <kd-text-input *ngIf="getSelectedMode() != 'FORM'"
+								 [(text)]="text"
                  [prettify]="false"
                  [mode]="getSelectedMode()"></kd-text-input>
   <div class="kd-equivalent-block kd-muted kd-bg-card-dark"

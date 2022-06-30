@@ -94,6 +94,7 @@ import {RoleListComponent} from './resourcelist/role/component';
 import {RoleBindingListComponent} from './resourcelist/rolebinding/component';
 import {SecretListComponent} from './resourcelist/secret/component';
 import {ServiceListComponent} from './resourcelist/service/component';
+import {MeshConfigListComponent} from './resourcelist/meshconfig/component';
 import {ServiceAccountListComponent} from './resourcelist/serviceaccount/component';
 import {StatefulSetListComponent} from './resourcelist/statefulset/component';
 import {StorageClassListComponent} from './resourcelist/storageclass/component';
@@ -182,6 +183,7 @@ const components = [
   StatefulSetListComponent,
   SecretListComponent,
   ServiceListComponent,
+	MeshConfigListComponent,
   ServiceAccountListComponent,
   CpuSparklineComponent,
   MemorySparklineComponent,

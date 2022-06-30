@@ -26,9 +26,10 @@ import {RestartResourceDialog} from './restartresource/dialog';
 import {ScaleResourceDialog} from './scaleresource/dialog';
 import {TriggerResourceDialog} from './triggerresource/dialog';
 import {PreviewDeploymentDialog} from './previewdeployment/dialog';
+import {DialogFormModule} from './editresource/form/module';
 
 @NgModule({
-  imports: [SharedModule, ComponentsModule],
+  imports: [SharedModule, ComponentsModule, DialogFormModule],
   declarations: [
     AlertDialog,
     EditResourceDialog,
