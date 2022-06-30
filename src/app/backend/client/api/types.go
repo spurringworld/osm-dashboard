@@ -25,6 +25,9 @@ import (
 	"k8s.io/client-go/tools/clientcmd/api"
 
 	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
+	smispecsclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/specs/clientset/versioned"
+
+	osmconfigclientset "github.com/openservicemesh/osm/pkg/gen/client/config/clientset/versioned"
 
 	authApi "github.com/kubernetes/dashboard/src/app/backend/auth/api"
 	pluginclientset "github.com/kubernetes/dashboard/src/app/backend/plugin/client/clientset/versioned"
@@ -45,10 +48,14 @@ type ClientManager interface {
 	InsecureClient() kubernetes.Interface
 	APIExtensionsClient(req *restful.Request) (apiextensionsclientset.Interface, error)
 	PluginClient(req *restful.Request) (pluginclientset.Interface, error)
+	SmiSpecsClient(req *restful.Request) (smispecsclientset.Interface, error)
 	SmiAccessClient(req *restful.Request) (smiaccessclientset.Interface, error)
+	OsmConfigClient(req *restful.Request) (osmconfigclientset.Interface, error)
 	InsecureAPIExtensionsClient() apiextensionsclientset.Interface
 	InsecurePluginClient() pluginclientset.Interface
+	InsecureSmiSpecsClient() smispecsclientset.Interface
 	InsecureSmiAccessClient() smiaccessclientset.Interface
+	InsecureOsmConfigClient() osmconfigclientset.Interface
 	CanI(req *restful.Request, ssar *v1.SelfSubjectAccessReview) bool
 	Config(req *restful.Request) (*rest.Config, error)
 	ClientCmdConfig(req *restful.Request) (clientcmd.ClientConfig, error)

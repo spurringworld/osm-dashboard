@@ -26,8 +26,9 @@ import (
 	authApi "github.com/kubernetes/dashboard/src/app/backend/auth/api"
 	clientapi "github.com/kubernetes/dashboard/src/app/backend/client/api"
 	"github.com/kubernetes/dashboard/src/app/backend/plugin/client/clientset/versioned"
-	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
 	fakePluginClientset "github.com/kubernetes/dashboard/src/app/backend/plugin/client/clientset/versioned/fake"
+	osmconfigclientset "github.com/openservicemesh/osm/pkg/gen/client/config/clientset/versioned"
+	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
 	v1 "k8s.io/api/authorization/v1"
 	coreV1 "k8s.io/api/core/v1"
 	"k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
@@ -67,8 +68,8 @@ func Test_handleConfig(t *testing.T) {
 }
 
 type fakeClientManager struct {
-	k8sClient    	kubernetes.Interface
-	pluginClient 	versioned.Interface
+	k8sClient    kubernetes.Interface
+	pluginClient versioned.Interface
 }
 
 func (cm *fakeClientManager) Client(req *restful.Request) (kubernetes.Interface, error) {
@@ -97,6 +98,10 @@ func (cm *fakeClientManager) SmiAccessClient(req *restful.Request) (smiaccesscli
 	panic("implement me")
 }
 
+func (cm *fakeClientManager) OsmConfigClient(req *restful.Request) (osmconfigclientset.Interface, error) {
+	panic("implement me")
+}
+
 func (cm *fakeClientManager) InsecureAPIExtensionsClient() clientset.Interface {
 	panic("implement me")
 }
@@ -109,6 +114,10 @@ func (cm *fakeClientManager) InsecurePluginClient() versioned.Interface {
 }
 
 func (cm *fakeClientManager) InsecureSmiAccessClient() smiaccessclientset.Interface {
+	panic("implement me")
+}
+
+func (cm *fakeClientManager) InsecureOsmConfigClient() osmconfigclientset.Interface {
 	panic("implement me")
 }
 

@@ -26,12 +26,18 @@ import (
 	rbac "k8s.io/api/rbac/v1"
 	storage "k8s.io/api/storage/v1"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
+	osmconfigv1alph2 "github.com/openservicemesh/osm/pkg/apis/config/v1alpha2"
 	smiaccessv1alpha3 "github.com/servicemeshinterface/smi-sdk-go/pkg/apis/access/v1alpha3"
+	smispecsv1alpha4 "github.com/servicemeshinterface/smi-sdk-go/pkg/apis/specs/v1alpha4"
 
 	apiextensionsclientset "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	client "k8s.io/client-go/kubernetes"
+
+	osmconfigclientset "github.com/openservicemesh/osm/pkg/gen/client/config/clientset/versioned"
 	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
+	smispecsclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/specs/clientset/versioned"
 
 	"github.com/kubernetes/dashboard/src/app/backend/api"
 )
@@ -68,9 +74,6 @@ type ResourceChannels struct {
 
 	// List and error channels to Services.
 	ServiceList ServiceListChannel
-
-	// List and error channels to TrafficTargets.
-	TrafficTargetList TrafficTargetListChannel
 
 	// List and error channels to Endpoints.
 	EndpointList EndpointListChannel
@@ -131,6 +134,15 @@ type ResourceChannels struct {
 
 	// List and error channels to ClusterRoleBindings
 	ClusterRoleBindingList ClusterRoleBindingListChannel
+
+	// List and error channels to HttpRouteGroups.
+	HttpRouteGroupList HttpRouteGroupListChannel
+
+	// List and error channels to TrafficTargets.
+	TrafficTargetList TrafficTargetListChannel
+
+	// List and error channels to MeshConfigs.
+	MeshConfigList MeshConfigListChannel
 }
 
 // ServiceListChannel is a list and error channels to Services.
@@ -166,6 +178,39 @@ func GetServiceListChannel(client client.Interface, nsQuery *NamespaceQuery,
 	return channel
 }
 
+// HttpRouteGroupListChannel is a list and error channels to HttpRouteGroup.
+type HttpRouteGroupListChannel struct {
+	List  chan *smispecsv1alpha4.HTTPRouteGroupList
+	Error chan error
+}
+
+// GetHttpRouteGroupListChannel returns a pair of channels to a HttpRouteGroup list and errors that both
+// must be read numReads times.
+func GetHttpRouteGroupListChannel(smiSpecsClient smispecsclientset.Interface, nsQuery *NamespaceQuery,
+	numReads int) HttpRouteGroupListChannel {
+
+	channel := HttpRouteGroupListChannel{
+		List:  make(chan *smispecsv1alpha4.HTTPRouteGroupList, numReads),
+		Error: make(chan error, numReads),
+	}
+	go func() {
+		list, err := smiSpecsClient.SpecsV1alpha4().HTTPRouteGroups(nsQuery.ToRequestParam()).List(context.TODO(), api.ListEverything)
+		var filteredItems []smispecsv1alpha4.HTTPRouteGroup
+		for _, item := range list.Items {
+			if nsQuery.Matches(item.ObjectMeta.Namespace) {
+				filteredItems = append(filteredItems, item)
+			}
+		}
+		list.Items = filteredItems
+		for i := 0; i < numReads; i++ {
+			channel.List <- list
+			channel.Error <- err
+		}
+	}()
+
+	return channel
+}
+
 // TrafficTargetListChannel is a list and error channels to TrafficTargets.
 type TrafficTargetListChannel struct {
 	List  chan *smiaccessv1alpha3.TrafficTargetList
@@ -184,6 +229,42 @@ func GetTrafficTargetListChannel(smiAccessClient smiaccessclientset.Interface, n
 	go func() {
 		list, err := smiAccessClient.AccessV1alpha3().TrafficTargets(nsQuery.ToRequestParam()).List(context.TODO(), api.ListEverything)
 		var filteredItems []smiaccessv1alpha3.TrafficTarget
+		for _, item := range list.Items {
+			if nsQuery.Matches(item.ObjectMeta.Namespace) {
+				filteredItems = append(filteredItems, item)
+			}
+		}
+		list.Items = filteredItems
+		for i := 0; i < numReads; i++ {
+			channel.List <- list
+			channel.Error <- err
+		}
+	}()
+
+	return channel
+}
+
+// MeshConfigListChannel is a list and error channels to MeshConfigs.
+type MeshConfigListChannel struct {
+	List  chan *osmconfigv1alph2.MeshConfigList
+	Error chan error
+}
+
+// GetMeshConfigListChannel returns a pair of channels to a MeshConfig list and errors that both
+// must be read numReads times.
+func GetMeshConfigListChannel(osmConfigClient osmconfigclientset.Interface, nsQuery *NamespaceQuery,
+	numReads int) MeshConfigListChannel {
+
+	channel := MeshConfigListChannel{
+		List:  make(chan *osmconfigv1alph2.MeshConfigList, numReads),
+		Error: make(chan error, numReads),
+	}
+
+	go func() {
+		println("meshconfig goroutine")
+
+		list, err := osmConfigClient.ConfigV1alpha2().MeshConfigs(nsQuery.ToRequestParam()).List(context.TODO(), api.ListEverything)
+		var filteredItems []osmconfigv1alph2.MeshConfig
 		for _, item := range list.Items {
 			if nsQuery.Matches(item.ObjectMeta.Namespace) {
 				filteredItems = append(filteredItems, item)

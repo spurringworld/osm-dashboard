@@ -33,6 +33,9 @@ import (
 	"k8s.io/client-go/tools/clientcmd/api"
 
 	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
+	smispecsclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/specs/clientset/versioned"
+
+	osmconfigclientset "github.com/openservicemesh/osm/pkg/gen/client/config/clientset/versioned"
 
 	pluginclientset "github.com/kubernetes/dashboard/src/app/backend/plugin/client/clientset/versioned"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/customresourcedefinition"
@@ -92,7 +95,13 @@ type clientManager struct {
 	insecureClient kubernetes.Interface
 	// SMI Access client created without providing auth info. It uses permissions granted to
 	// service account used by dashboard or kubeconfig file if it was passed during dashboard init.
+	insecureSmiSpecsClient smispecsclientset.Interface
+	// SMI Access client created without providing auth info. It uses permissions granted to
+	// service account used by dashboard or kubeconfig file if it was passed during dashboard init.
 	insecureSmiAccessClient smiaccessclientset.Interface
+	// OSM Config client created without providing auth info. It uses permissions granted to
+	// service account used by dashboard or kubeconfig file if it was passed during dashboard init.
+	insecureOsmConfigClient osmconfigclientset.Interface
 	// Kubernetes client config created without providing auth info. It uses permissions granted
 	// to service account used by dashboard or kubeconfig file if it was passed during dashboard
 	// init.
@@ -107,16 +116,22 @@ func (self *clientManager) Client(req *restful.Request) (kubernetes.Interface, e
 		return nil, errors.NewBadRequest("request can not be nil")
 	}
 
-	println("999999999999999999999999999999999999")
-
 	if self.isSecureModeEnabled(req) {
-		println("secure")
 		return self.secureClient(req)
 	}
 
-	println("insecure")
-
 	return self.InsecureClient(), nil
+}
+
+func (self *clientManager) SmiSpecsClient(req *restful.Request) (smispecsclientset.Interface, error) {
+	if req == nil {
+		return nil, errors.NewBadRequest("request can not be nil")
+	}
+
+	if self.isSecureModeEnabled(req) {
+		return self.secureSmiSpecsClient(req)
+	}
+	return self.InsecureSmiSpecsClient(), nil
 }
 
 func (self *clientManager) SmiAccessClient(req *restful.Request) (smiaccessclientset.Interface, error) {
@@ -129,6 +144,18 @@ func (self *clientManager) SmiAccessClient(req *restful.Request) (smiaccessclien
 	}
 
 	return self.InsecureSmiAccessClient(), nil
+}
+
+func (self *clientManager) OsmConfigClient(req *restful.Request) (osmconfigclientset.Interface, error) {
+	if req == nil {
+		return nil, errors.NewBadRequest("request can not be nil")
+	}
+
+	if self.isSecureModeEnabled(req) {
+		return self.secureOsmConfigClient(req)
+	}
+
+	return self.InsecureOsmConfigClient(), nil
 }
 
 // APIExtensionsClient returns an API Extensions client. In case dashboard login is enabled and
@@ -197,11 +224,25 @@ func (self *clientManager) InsecurePluginClient() pluginclientset.Interface {
 	return self.insecurePluginClient
 }
 
+// InsecureSmiSpecsClient returns plugin client that was created without providing
+// auth info. It uses permissions granted to service account used by dashboard or kubeconfig file
+// if it was passed during dashboard init.
+func (self *clientManager) InsecureSmiSpecsClient() smispecsclientset.Interface {
+	return self.insecureSmiSpecsClient
+}
+
 // InsecureSmiAccessClient returns plugin client that was created without providing
 // auth info. It uses permissions granted to service account used by dashboard or kubeconfig file
 // if it was passed during dashboard init.
 func (self *clientManager) InsecureSmiAccessClient() smiaccessclientset.Interface {
 	return self.insecureSmiAccessClient
+}
+
+// InsecureOsmConfigClient returns plugin client that was created without providing
+// auth info. It uses permissions granted to service account used by dashboard or kubeconfig file
+// if it was passed during dashboard init.
+func (self *clientManager) InsecureOsmConfigClient() osmconfigclientset.Interface {
+	return self.insecureOsmConfigClient
 }
 
 // InsecureConfig returns kubernetes client config that used privileges of dashboard service account
@@ -321,6 +362,11 @@ func (self *clientManager) VerberClient(req *restful.Request, config *rest.Confi
 		return nil, err
 	}
 
+	osmconfigclient, err := self.OsmConfigClient(req)
+	if err != nil {
+		return nil, err
+	}
+
 	apiextensionsRestClient, err := customresourcedefinition.GetExtensionsAPIRestClient(apiextensionsclient)
 	if err != nil {
 		return nil, err
@@ -338,6 +384,7 @@ func (self *clientManager) VerberClient(req *restful.Request, config *rest.Confi
 		apiextensionsRestClient,
 		pluginsclient.DashboardV1alpha1().RESTClient(),
 		smiaccessclient.AccessV1alpha3().RESTClient(),
+		osmconfigclient.ConfigV1alpha2().RESTClient(),
 		config), nil
 }
 
@@ -480,6 +527,20 @@ func (self *clientManager) secureClient(req *restful.Request) (kubernetes.Interf
 	return client, nil
 }
 
+func (self *clientManager) secureSmiSpecsClient(req *restful.Request) (smispecsclientset.Interface, error) {
+	cfg, err := self.secureConfig(req)
+	if err != nil {
+		return nil, err
+	}
+
+	client, err := smispecsclientset.NewForConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return client, nil
+}
+
 func (self *clientManager) secureSmiAccessClient(req *restful.Request) (smiaccessclientset.Interface, error) {
 	cfg, err := self.secureConfig(req)
 	if err != nil {
@@ -487,6 +548,20 @@ func (self *clientManager) secureSmiAccessClient(req *restful.Request) (smiacces
 	}
 
 	client, err := smiaccessclientset.NewForConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return client, nil
+}
+
+func (self *clientManager) secureOsmConfigClient(req *restful.Request) (osmconfigclientset.Interface, error) {
+	cfg, err := self.secureConfig(req)
+	if err != nil {
+		return nil, err
+	}
+
+	client, err := osmconfigclientset.NewForConfig(cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -594,7 +669,17 @@ func (self *clientManager) initInsecureClients() {
 		panic(err)
 	}
 
+	smispecsclient, err := smispecsclientset.NewForConfig(self.insecureConfig)
+	if err != nil {
+		panic(err)
+	}
+
 	smiaccessclient, err := smiaccessclientset.NewForConfig(self.insecureConfig)
+	if err != nil {
+		panic(err)
+	}
+
+	osmconfigclient, err := osmconfigclientset.NewForConfig(self.insecureConfig)
 	if err != nil {
 		panic(err)
 	}
@@ -602,7 +687,9 @@ func (self *clientManager) initInsecureClients() {
 	self.insecureClient = k8sClient
 	self.insecureAPIExtensionsClient = apiextensionsclient
 	self.insecurePluginClient = pluginclient
+	self.insecureSmiSpecsClient = smispecsclient
 	self.insecureSmiAccessClient = smiaccessclient
+	self.insecureOsmConfigClient = osmconfigclient
 }
 
 func (self *clientManager) initInsecureConfig() {

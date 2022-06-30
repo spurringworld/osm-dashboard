@@ -32,7 +32,7 @@ type TrafficTargetList struct {
 // GetServiceList returns a list of all services in the cluster.
 func GetTrafficTargetList(smiAccessClient smiaccessclientset.Interface, nsQuery *common.NamespaceQuery,
 	dsQuery *dataselect.DataSelectQuery) (*TrafficTargetList, error) {
-	log.Print("Getting list of all services in the cluster")
+	log.Print("Getting list of all traffictargets in the cluster")
 
 	channels := &common.ResourceChannels{
 		TrafficTargetList: common.GetTrafficTargetListChannel(smiAccessClient, nsQuery, 1),
@@ -57,7 +57,7 @@ func GetTrafficTargetListFromChannels(channels *common.ResourceChannels,
 func toTrafficTarget(trafficTarget *smiaccessv1alpha3.TrafficTarget) TrafficTarget {
 	return TrafficTarget{
 		ObjectMeta:        api.NewObjectMeta(trafficTarget.ObjectMeta),
-		TypeMeta:          api.NewTypeMeta(api.ResourceKindService),
+		TypeMeta:          api.NewTypeMeta(api.ResourceKindTrafficTarget),
 	}
 }
 

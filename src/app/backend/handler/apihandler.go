@@ -59,6 +59,7 @@ import (
 	"github.com/kubernetes/dashboard/src/app/backend/resource/logs"
 	ns "github.com/kubernetes/dashboard/src/app/backend/resource/namespace"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/node"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/osm/meshconfig"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/persistentvolume"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/persistentvolumeclaim"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/pod"
@@ -69,9 +70,11 @@ import (
 	"github.com/kubernetes/dashboard/src/app/backend/resource/secret"
 	resourceService "github.com/kubernetes/dashboard/src/app/backend/resource/service"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/serviceaccount"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/httproutegroup"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/traffictarget"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/statefulset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/storageclass"
-	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/traffictarget"
+
 	"github.com/kubernetes/dashboard/src/app/backend/scaling"
 	"github.com/kubernetes/dashboard/src/app/backend/settings"
 	settingsApi "github.com/kubernetes/dashboard/src/app/backend/settings/api"
@@ -653,9 +656,31 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 
 	// SMI
 	apiV1Ws.Route(
+		apiV1Ws.GET("/httproutgroup").
+			To(apiHandler.handleHttpRouteGroupList).
+			Writes(httproutegroup.HttpRouteGroupList{}))
+	apiV1Ws.Route(
 		apiV1Ws.GET("/traffictarget").
 			To(apiHandler.handleGetTrafficTargetList).
 			Writes(traffictarget.TrafficTargetList{}))
+
+	// OSM
+	apiV1Ws.Route(
+		apiV1Ws.GET("/meshconfig").
+			To(apiHandler.handleGetMeshConfigList).
+			Writes(meshconfig.MeshConfigList{}))
+	apiV1Ws.Route(
+		apiV1Ws.GET("/meshconfig/{namespace}").
+			To(apiHandler.handleGetMeshConfigList).
+			Writes(meshconfig.MeshConfigList{}))
+	apiV1Ws.Route(
+		apiV1Ws.GET("/meshconfig/{namespace}/{name}").
+			To(apiHandler.handleGetMeshConfigDetail).
+			Writes(meshconfig.MeshConfigDetail{}))
+	apiV1Ws.Route(
+		apiV1Ws.GET("/meshconfig/{namespace}/{meshconfig}/event").
+			To(apiHandler.handleGetMeshConfigControllerEvents).
+			Writes(common.EventList{}))
 
 	apiV1Ws.Route(
 		apiV1Ws.GET("/crd").
@@ -991,29 +1016,24 @@ func (apiHandler *APIHandler) handleGetServiceEvent(request *restful.Request, re
 	response.WriteHeaderAndEntity(http.StatusOK, result)
 }
 
+func (apiHandler *APIHandler) handleHttpRouteGroupList(request *restful.Request, response *restful.Response) {
+	println("=== === === >>>>>> handleHttpRouteGroupList")
+	smiSpecsClient, err := apiHandler.cManager.SmiSpecsClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	namespace := parseNamespacePathParameter(request)
+	dataSelect := parser.ParseDataSelectPathParameter(request)
+	result, err := httproutegroup.GetHttpRouteGroupList(smiSpecsClient, namespace, dataSelect)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
 func (apiHandler *APIHandler) handleGetTrafficTargetList(request *restful.Request, response *restful.Response) {
-	println("hello world")
-	println("====================================")
-
-	// smiAccessClient, err := apiHandler.cManager.SmiAccessClient(request)
-	// if err != nil {
-	// 	println("Could not initialize SMI Access client: %s", err)
-	// 	errors.HandleInternalError(response, err)
-	// 	return
-	// }
-
-	// trafficTargets, err := smiAccessClient.AccessV1alpha3().TrafficTargets("default").List(context.TODO(), metav1.ListOptions{})
-	// if err != nil {
-	// 	println("Error listing SMI TrafficTarget policies: %s", err)
-	// 	errors.HandleInternalError(response, err)
-	// 	return
-	// }
-
-	// for _, trafficTarget := range trafficTargets.Items {
-	// 	println("hello traffictarget")
-	// 	print(trafficTarget.Name)
-	// }
-
 	smiAccessClient, err := apiHandler.cManager.SmiAccessClient(request)
 	if err != nil {
 		errors.HandleInternalError(response, err)
@@ -1023,6 +1043,58 @@ func (apiHandler *APIHandler) handleGetTrafficTargetList(request *restful.Reques
 	namespace := parseNamespacePathParameter(request)
 	dataSelect := parser.ParseDataSelectPathParameter(request)
 	result, err := traffictarget.GetTrafficTargetList(smiAccessClient, namespace, dataSelect)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleGetMeshConfigList(request *restful.Request, response *restful.Response) {
+	osmConfigClient, err := apiHandler.cManager.OsmConfigClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	namespace := parseNamespacePathParameter(request)
+	dataSelect := parser.ParseDataSelectPathParameter(request)
+	result, err := meshconfig.GetMeshConfigList(osmConfigClient, namespace, dataSelect)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleGetMeshConfigDetail(request *restful.Request, response *restful.Response) {
+	osmConfigClient, err := apiHandler.cManager.OsmConfigClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	namespace := request.PathParameter("namespace")
+	name := request.PathParameter("name")
+	result, err := meshconfig.GetMeshConfigDetail(osmConfigClient, namespace, name)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleGetMeshConfigControllerEvents(request *restful.Request, response *restful.Response) {
+	k8sClient, err := apiHandler.cManager.Client(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	namespace := request.PathParameter("namespace")
+	name := request.PathParameter("meshconfig")
+	dataSelect := parser.ParseDataSelectPathParameter(request)
+	result, err := event.GetResourceEvents(k8sClient, dataSelect, namespace, name)
 	if err != nil {
 		errors.HandleInternalError(response, err)
 		return
