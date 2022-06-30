@@ -59,6 +59,7 @@ import (
 	"github.com/kubernetes/dashboard/src/app/backend/resource/logs"
 	ns "github.com/kubernetes/dashboard/src/app/backend/resource/namespace"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/node"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/osm/meshconfig"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/persistentvolume"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/persistentvolumeclaim"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/pod"
@@ -69,10 +70,9 @@ import (
 	"github.com/kubernetes/dashboard/src/app/backend/resource/secret"
 	resourceService "github.com/kubernetes/dashboard/src/app/backend/resource/service"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/serviceaccount"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/traffictarget"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/statefulset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/storageclass"
-	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/traffictarget"
-	"github.com/kubernetes/dashboard/src/app/backend/resource/osm/meshconfig"
 	"github.com/kubernetes/dashboard/src/app/backend/scaling"
 	"github.com/kubernetes/dashboard/src/app/backend/settings"
 	settingsApi "github.com/kubernetes/dashboard/src/app/backend/settings/api"
@@ -661,6 +661,10 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 	// OSM
 	apiV1Ws.Route(
 		apiV1Ws.GET("/meshconfig").
+			To(apiHandler.handleGetMeshConfigList).
+			Writes(meshconfig.MeshConfigList{}))
+	apiV1Ws.Route(
+		apiV1Ws.GET("/meshconfig/{namespace}").
 			To(apiHandler.handleGetMeshConfigList).
 			Writes(meshconfig.MeshConfigList{}))
 
