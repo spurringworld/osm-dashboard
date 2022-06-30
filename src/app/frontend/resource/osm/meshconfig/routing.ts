@@ -17,7 +17,7 @@ import {Route, RouterModule} from '@angular/router';
 import {DEFAULT_ACTIONBAR} from '@common/components/actionbars/routing';
 import {BREADCRUMBS} from '../../../index.messages';
 
-import {DISCOVERY_ROUTE} from '../routing';
+import {OSM_ROUTE} from '../routing';
 
 import {MeshConfigDetailComponent} from './detail/component';
 import {MeshConfigListComponent} from './list/component';
@@ -26,8 +26,8 @@ const MESHCONFIG_LIST_ROUTE: Route = {
   path: '',
   component: MeshConfigListComponent,
   data: {
-    breadcrumb: BREADCRUMBS.Services,
-    parent: DISCOVERY_ROUTE,
+    breadcrumb: BREADCRUMBS.Meshconfigs,
+    parent: OSM_ROUTE,
   },
 };
 

@@ -15,7 +15,7 @@
 import {HttpParams} from '@angular/common/http';
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Service, ServiceList} from 'typings/root.api';
+import {Meshconfig, MeshconfigList} from 'typings/root.api';
 
 import {ResourceListWithStatuses} from '@common/resources/list';
 import {NotificationsService} from '@common/services/global/notifications';
@@ -30,17 +30,17 @@ import {Status, StatusClass} from '../statuses';
   templateUrl: './template.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MeshConfigListComponent extends ResourceListWithStatuses<ServiceList, Service> {
-  @Input() endpoint = EndpointManager.resource(Resource.service, true).list();
+export class MeshConfigListComponent extends ResourceListWithStatuses<MeshconfigList, Meshconfig> {
+  @Input() endpoint = EndpointManager.resource(Resource.meshconfig, true).list();
 
   constructor(
-    private readonly service_: NamespacedResourceService<ServiceList>,
+    private readonly service_: NamespacedResourceService<MeshconfigList>,
     notifications: NotificationsService,
     cdr: ChangeDetectorRef
   ) {
-    super('service', notifications, cdr);
-    this.id = ListIdentifier.service;
-    this.groupId = ListGroupIdentifier.discovery;
+    super('meshconfig', notifications, cdr);
+    this.id = ListIdentifier.meshConfig;
+    this.groupId = ListGroupIdentifier.osm;
 
     // Register status icon handlers
     this.registerBinding(StatusClass.Success, r => this.isInSuccessState(r), Status.Success);
@@ -53,12 +53,12 @@ export class MeshConfigListComponent extends ResourceListWithStatuses<ServiceLis
     this.registerDynamicColumn('namespace', 'name', this.shouldShowNamespaceColumn_.bind(this));
   }
 
-  getResourceObservable(params?: HttpParams): Observable<ServiceList> {
+  getResourceObservable(params?: HttpParams): Observable<MeshconfigList> {
     return this.service_.get(this.endpoint, undefined, undefined, params);
   }
 
-  map(serviceList: ServiceList): Service[] {
-    return serviceList.services;
+  map(meshconfigList: MeshconfigList): Meshconfig[] {
+    return meshconfigList.meshconfigs;
   }
 
   /**
@@ -69,25 +69,12 @@ export class MeshConfigListComponent extends ResourceListWithStatuses<ServiceLis
    * LoadBalancer:  ClusterIP is defined __and__ external endpoints exist
    * ExternalName:  true
    */
-  isInSuccessState(resource: Service): boolean {
-    switch (resource.type) {
-      case 'ExternalName':
-        return true;
-      case 'LoadBalancer':
-        if (resource.externalEndpoints.length === 0) {
-          return false;
-        }
-        break;
-      case 'ClusterIP':
-      case 'NodePort':
-      default:
-        break;
-    }
-    return resource.clusterIP.length > 0;
+  isInSuccessState(resource: Meshconfig): boolean {
+    return !!resource;
   }
 
   getDisplayColumns(): string[] {
-    return ['statusicon', 'name', 'labels', 'type', 'clusterip', 'internalendp', 'externalendp', 'created'];
+    return ['statusicon', 'name', 'labels', 'created'];
   }
 
   private shouldShowNamespaceColumn_(): boolean {

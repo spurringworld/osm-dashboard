@@ -12,22 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {Route, RouterModule} from '@angular/router';
-import {BREADCRUMBS} from '../../index.messages';
-import {OsmComponent} from './component';
-
-export const OSM_ROUTE: Route = {
-  path: '',
-  component: OsmComponent,
-  data: {
-    breadcrumb: BREADCRUMBS.Meshconfig,
-    link: ['', 'osm'],
-  },
-};
+import {SharedModule} from '../../../../shared.module';
+import {DialogFormComponent} from './component';
+import {CreateFromFormModule} from '@create/from/form/module';
 
 @NgModule({
-  imports: [RouterModule.forChild([OSM_ROUTE])],
-  exports: [RouterModule],
+  declarations: [
+    DialogFormComponent
+  ],
+  imports: [
+		CommonModule, 
+		SharedModule,
+		CreateFromFormModule
+	],
+  exports: [DialogFormComponent],
 })
-export class OsmRoutingModule {}
+export class DialogFormModule {}

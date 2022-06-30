@@ -16,7 +16,7 @@ import {Component} from '@angular/core';
 import {GroupedResourceList} from '@common/resources/groupedlist';
 
 @Component({
-  selector: 'kd-discovery',
+  selector: 'kd-osm',
   templateUrl: './template.html',
 })
-export class DiscoveryComponent extends GroupedResourceList {}
+export class OsmComponent extends GroupedResourceList {}

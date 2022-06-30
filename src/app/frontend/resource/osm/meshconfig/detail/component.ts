@@ -14,7 +14,7 @@
 
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {ServiceDetail} from '@api/root.api';
+import {MeshconfigDetail} from '@api/root.api';
 import {ActionbarService, ResourceMeta} from '@common/services/global/actionbar';
 import {NotificationsService} from '@common/services/global/notifications';
 import {EndpointManager, Resource} from '@common/services/resource/endpoint';
@@ -25,19 +25,20 @@ import {takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'kd-meshconfig-detail',
   templateUrl: './template.html',
+  styleUrls: ['style.scss'],
 })
 export class MeshConfigDetailComponent implements OnInit, OnDestroy {
-  service: ServiceDetail;
+  meshconfig: MeshconfigDetail;
   isInitialized = false;
   podListEndpoint: string;
   ingressListEndpoint: string;
   eventListEndpoint: string;
 
-  private readonly endpoint_ = EndpointManager.resource(Resource.service, true);
+  private readonly endpoint_ = EndpointManager.resource(Resource.meshconfig, true);
   private readonly unsubscribe_ = new Subject<void>();
 
   constructor(
-    private readonly service_: NamespacedResourceService<ServiceDetail>,
+    private readonly service_: NamespacedResourceService<MeshconfigDetail>,
     private readonly actionbar_: ActionbarService,
     private readonly activatedRoute_: ActivatedRoute,
     private readonly notifications_: NotificationsService
@@ -54,10 +55,10 @@ export class MeshConfigDetailComponent implements OnInit, OnDestroy {
     this.service_
       .get(this.endpoint_.detail(), resourceName, resourceNamespace)
       .pipe(takeUntil(this.unsubscribe_))
-      .subscribe((d: ServiceDetail) => {
-        this.service = d;
+      .subscribe((d: MeshconfigDetail) => {
+        this.meshconfig = d;
         this.notifications_.pushErrors(d.errors);
-        this.actionbar_.onInit.emit(new ResourceMeta('Service', d.objectMeta, d.typeMeta));
+        this.actionbar_.onInit.emit(new ResourceMeta('Meshconfig', d.objectMeta, d.typeMeta));
         this.isInitialized = true;
       });
   }

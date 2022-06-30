@@ -15,46 +15,277 @@ limitations under the License.
 -->
 
 <kd-object-meta [initialized]="isInitialized"
-                [objectMeta]="service?.objectMeta"></kd-object-meta>
+                [objectMeta]="meshconfig?.objectMeta"></kd-object-meta>
 
-<kd-card [initialized]="isInitialized">
+<kd-card [initialized]="isInitialized" *ngIf="meshconfig?.spec?.featureFlags" >
   <div title
-       i18n>Resource information</div>
+       i18n>Feature Flags</div>
   <div content
        *ngIf="isInitialized"
        fxLayout="row wrap">
-    <kd-property *ngIf="service?.type">
-      <div key
-           i18n>Type</div>
-      <div value>{{ service?.type }}</div>
-    </kd-property>
-    <kd-property *ngIf="service?.clusterIP">
-      <div key
-           i18n>Cluster IP</div>
-      <div value>{{ service?.clusterIP }}</div>
-    </kd-property>
-    <kd-property *ngIf="service?.sessionAffinity">
-      <div key
-           i18n>Session Affinity</div>
-      <div value>{{ service?.sessionAffinity }}</div>
-    </kd-property>
-    <kd-property *ngIf="service?.selector"
-                 fxFlex="100">
-      <div key
-           i18n>Selector</div>
+    <kd-property>
+			<div key i18n>Async Proxy Service Mapping</div>
       <div value>
-        <kd-chips [map]="service?.selector"
-                  [displayAll]="true"></kd-chips>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableAsyncProxyServiceMapping" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+      </div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Egress Policy</div>
+      <div value>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableEgressPolicy" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+      </div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Envoy Active Health Checks</div>
+      <div value>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableEnvoyActiveHealthChecks" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+      </div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Ingress Backend Policy</div>
+      <div value>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableIngressBackendPolicy" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+      </div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Multicluster Mode</div>
+      <div value>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableMulticlusterMode" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+      </div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Retry Policy</div>
+      <div value>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableRetryPolicy" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+      </div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Snapshot Cache Mode</div>
+      <div value>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableSnapshotCacheMode" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+      </div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>WASM Stats</div>
+      <div value>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableWASMStats" disabled style="opacity: 1;">
+				</mat-slide-toggle>
       </div>
     </kd-property>
   </div>
 </kd-card>
+<kd-card [initialized]="isInitialized" *ngIf="meshconfig?.spec?.traffic" >
+  <div title
+       i18n>Traffic</div>
+  <div content
+       *ngIf="isInitialized"
+       fxLayout="row wrap">
+    <kd-property>
+			<div key i18n>Egress</div>
+      <div value>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.enableEgress" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+      </div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Permissive Traffic Policy Mode</div>
+      <div value>
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.enablePermissiveTrafficPolicyMode" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+      </div>
+    </kd-property>
+  </div>
+  <div content
+       *ngIf="isInitialized"
+       fxLayout="row wrap">
+		<div *ngIf="meshconfig.spec.traffic?.inboundExternalAuthorization"
+				class="kd-muted section-header"
+				fxFlex="100"
+				i18n>Inbound External Authorization</div>
+		<ng-container *ngIf="meshconfig.spec.traffic?.inboundExternalAuthorization">
+			<kd-property>
+				<div key i18n>Enabled</div>
+				<div value>
+					<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.inboundExternalAuthorization.enable" disabled style="opacity: 1;">
+					</mat-slide-toggle>
+				</div>
+			</kd-property>
+			<kd-property>
+				<div key i18n>Failure Mode Allow</div>
+				<div value>
+					<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.inboundExternalAuthorization.failureModeAllow" disabled style="opacity: 1;">
+					</mat-slide-toggle>
+				</div>
+			</kd-property>
+			<kd-property>
+				<div key i18n>Stat Prefix</div>
+				<div value>
+					{{meshconfig.spec.traffic.inboundExternalAuthorization.statPrefix}}
+				</div>
+			</kd-property>
+			<kd-property>
+				<div key i18n>Timeout</div>
+				<div value>
+					{{meshconfig.spec.traffic.inboundExternalAuthorization.timeout}}
+				</div>
+			</kd-property>
+		</ng-container>
 
-<kd-endpoint-card-list [endpoints]="service?.endpointList?.endpoints"
-                       [initialized]="isInitialized"></kd-endpoint-card-list>
+		<div *ngIf="meshconfig.spec.traffic?.inboundPortExclusionList"
+				class="kd-muted section-header"
+				fxFlex="100"
+				i18n>Inbound Port (Exclusion)</div>
+		<ng-container *ngIf="meshconfig.spec.traffic?.inboundPortExclusionList">
+			<kd-property>
+				<div value>
+					<kd-chips [map]="meshconfig.spec.traffic?.inboundPortExclusionList"></kd-chips>
+				</div>
+			</kd-property>
+		</ng-container>
+		
+		<div *ngIf="meshconfig.spec.traffic?.networkInterfaceExclusionList"
+				class="kd-muted section-header"
+				fxFlex="100"
+				i18n>Network Interface (Exclusion)</div>
+		<ng-container *ngIf="meshconfig.spec.traffic?.networkInterfaceExclusionList">
+			<kd-property>
+				<div value>
+					<kd-chips [map]="meshconfig.spec.traffic?.networkInterfaceExclusionList"></kd-chips>
+				</div>
+			</kd-property>
+		</ng-container>
+		
+		<div *ngIf="meshconfig.spec.traffic?.outboundIPRangeExclusionList"
+				class="kd-muted section-header"
+				fxFlex="100"
+				i18n>Outbound IP Range (Exclusion)</div>
+		<ng-container *ngIf="meshconfig.spec.traffic?.outboundIPRangeExclusionList">
+			<kd-property>
+				<div value>
+					<kd-chips [map]="meshconfig.spec.traffic?.outboundIPRangeExclusionList"></kd-chips>
+				</div>
+			</kd-property>
+		</ng-container>
+		<div *ngIf="meshconfig.spec.traffic?.outboundIPRangeInclusionList"
+				class="kd-muted section-header"
+				fxFlex="100"
+				i18n>Outbound IP Range (Inclusion)</div>
+		<ng-container *ngIf="meshconfig.spec.traffic?.outboundIPRangeInclusionList">
+			<kd-property>
+				<div value>
+					<kd-chips [map]="meshconfig.spec.traffic?.outboundIPRangeInclusionList"></kd-chips>
+				</div>
+			</kd-property>
+		</ng-container>
+		
+		<div *ngIf="meshconfig.spec.traffic?.outboundPortExclusionList"
+				class="kd-muted section-header"
+				fxFlex="100"
+				i18n>Outbound Port (Exclusion)</div>
+		<ng-container *ngIf="meshconfig.spec.traffic?.outboundPortExclusionList">
+			<kd-property>
+				<div value>
+					<kd-chips [map]="meshconfig.spec.traffic?.outboundPortExclusionList"></kd-chips>
+				</div>
+			</kd-property>
+		</ng-container>
+	</div>
+</kd-card>
 
-<kd-pod-list [endpoint]="podListEndpoint"></kd-pod-list>
+<kd-card [initialized]="isInitialized" *ngIf="meshconfig?.spec?.certificate" >
+  <div title
+       i18n>Certificate</div>
+  <div content
+       *ngIf="isInitialized"
+       fxLayout="row wrap">
+    <kd-property>
+			<div key i18n>Cert Key Bit Size</div>
+      <div value>{{meshconfig.spec.certificate.certKeyBitSize}}Bit</div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Service Cert Validity Duration</div>
+      <div value>{{meshconfig.spec.certificate.serviceCertValidityDuration}}</div>
+    </kd-property>
+	</div>
+</kd-card>
 
-<kd-ingress-list [endpoint]="ingressListEndpoint"></kd-ingress-list>
+<kd-card [initialized]="isInitialized" *ngIf="meshconfig?.spec?.observability" >
+  <div title
+       i18n>Observability</div>
+  <div content
+       *ngIf="isInitialized"
+       fxLayout="row wrap">
+    <kd-property>
+			<div key i18n>Log Level</div>
+      <div value>{{meshconfig.spec.observability.osmLogLevel}}</div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Debug Server</div>
+      <div value>
+				<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.observability.enableDebugServer" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+			</div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Tracing</div>
+      <div value>
+				<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.observability.tracing.enable" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+			</div>
+    </kd-property>
+	</div>
+</kd-card>
 
-<kd-event-list [endpoint]="eventListEndpoint"></kd-event-list>
+<kd-card [initialized]="isInitialized" *ngIf="meshconfig?.spec?.sidecar" >
+  <div title
+       i18n>Sidecar</div>
+  <div content
+       *ngIf="isInitialized"
+       fxLayout="row wrap">
+    <kd-property>
+			<div key i18n>Log Level</div>
+      <div value>{{meshconfig.spec.sidecar.logLevel}}</div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Local Proxy Mode</div>
+      <div value>{{meshconfig.spec.sidecar.localProxyMode}}</div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Privileged Init Container</div>
+      <div value>
+				<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.sidecar.enablePrivilegedInitContainer" disabled style="opacity: 1;">
+				</mat-slide-toggle>
+			</div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Config Resync Interval</div>
+      <div value>{{meshconfig.spec.sidecar.configResyncInterval}}</div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Tls Protocol Version (Max)</div>
+      <div value>{{meshconfig.spec.sidecar.tlsMaxProtocolVersion}}</div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Tls Protocol Version (Min)</div>
+      <div value>{{meshconfig.spec.sidecar.tlsMinProtocolVersion}}</div>
+    </kd-property>
+	</div>
+  <div content
+       *ngIf="isInitialized"
+       fxLayout="row wrap">
+    <kd-property>
+			<div key i18n>Resources</div>
+      <div value>
+				<kd-chips [map]="meshconfig.spec.sidecar?.resources"></kd-chips>
+			</div>
+    </kd-property>
+	</div>
+</kd-card>
+<!-- <kd-event-list [endpoint]="eventListEndpoint"></kd-event-list> -->

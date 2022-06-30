@@ -23,7 +23,6 @@ import {RawResource} from '../../resources/rawresource';
 import {ResourceMeta} from '../../services/global/actionbar';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-
 @Component({
   selector: 'kd-delete-resource-dialog',
   templateUrl: 'template.html',

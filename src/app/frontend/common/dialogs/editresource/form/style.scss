@@ -12,22 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {NgModule} from '@angular/core';
-import {Route, RouterModule} from '@angular/router';
-import {BREADCRUMBS} from '../../index.messages';
-import {OsmComponent} from './component';
+@use '../../../../variables' as *;
 
-export const OSM_ROUTE: Route = {
-  path: '',
-  component: OsmComponent,
-  data: {
-    breadcrumb: BREADCRUMBS.Meshconfig,
-    link: ['', 'osm'],
-  },
-};
+.kd-block {
+  display: block;
+}
 
-@NgModule({
-  imports: [RouterModule.forChild([OSM_ROUTE])],
-  exports: [RouterModule],
-})
-export class OsmRoutingModule {}
+.kd-deploy-input-row {
+  margin-bottom: $baseline-grid;
+  margin-top: $baseline-grid;
+}
+
+$bar-height: 0.5px;
+
+::ng-deep mat-progress-bar {
+  &.kd-deploy-form-progress {
+    clear: left;
+    height: $bar-height;
+    margin-bottom: -$bar-height;
+    overflow: hidden;
+    top: 10 * $bar-height;
+
+    &:not(.kd-deploy-form-progress-show) {
+      visibility: hidden;
+    }
+  }
+}
