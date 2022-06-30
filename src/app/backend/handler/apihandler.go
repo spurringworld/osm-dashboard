@@ -75,6 +75,7 @@ import (
 	"github.com/kubernetes/dashboard/src/app/backend/resource/statefulset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/storageclass"
 
+
 	"github.com/kubernetes/dashboard/src/app/backend/scaling"
 	"github.com/kubernetes/dashboard/src/app/backend/settings"
 	settingsApi "github.com/kubernetes/dashboard/src/app/backend/settings/api"
@@ -667,6 +668,10 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 	// OSM
 	apiV1Ws.Route(
 		apiV1Ws.GET("/meshconfig").
+			To(apiHandler.handleGetMeshConfigList).
+			Writes(meshconfig.MeshConfigList{}))
+	apiV1Ws.Route(
+		apiV1Ws.GET("/meshconfig/{namespace}").
 			To(apiHandler.handleGetMeshConfigList).
 			Writes(meshconfig.MeshConfigList{}))
 

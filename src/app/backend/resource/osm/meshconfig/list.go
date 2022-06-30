@@ -16,6 +16,9 @@ import (
 type MeshConfig struct {
 	ObjectMeta api.ObjectMeta `json:"objectMeta"`
 	TypeMeta   api.TypeMeta   `json:"typeMeta"`
+	// Spec is the MeshConfig specification.
+	// +optional
+	Spec osmconfigv1alph2.MeshConfigSpec `json:"spec,omitempty"`
 }
 
 // MeshConfigList contains a list of services in the cluster.
@@ -56,8 +59,9 @@ func GetMeshConfigListFromChannels(channels *common.ResourceChannels,
 
 func toMeshConfig(meshConfig *osmconfigv1alph2.MeshConfig) MeshConfig {
 	return MeshConfig{
-		ObjectMeta:        api.NewObjectMeta(meshConfig.ObjectMeta),
-		TypeMeta:          api.NewTypeMeta(api.ResourceKindService),
+		ObjectMeta: api.NewObjectMeta(meshConfig.ObjectMeta),
+		TypeMeta:   api.NewTypeMeta(api.ResourceKindService),
+		Spec:       meshConfig.Spec,
 	}
 }
 
@@ -65,8 +69,8 @@ func toMeshConfig(meshConfig *osmconfigv1alph2.MeshConfig) MeshConfig {
 func CreateMeshConfigList(meshConfigs []osmconfigv1alph2.MeshConfig, nonCriticalErrors []error, dsQuery *dataselect.DataSelectQuery) *MeshConfigList {
 	meshConfigsList := &MeshConfigList{
 		MeshConfigs: make([]MeshConfig, 0),
-		ListMeta: api.ListMeta{TotalItems: len(meshConfigs)},
-		Errors:   nonCriticalErrors,
+		ListMeta:    api.ListMeta{TotalItems: len(meshConfigs)},
+		Errors:      nonCriticalErrors,
 	}
 
 	meshConfigCells, filteredTotal := dataselect.GenericDataSelectWithFilter(toCells(meshConfigs), dsQuery)

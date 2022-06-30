@@ -362,6 +362,11 @@ func (self *clientManager) VerberClient(req *restful.Request, config *rest.Confi
 		return nil, err
 	}
 
+	osmconfigclient, err := self.OsmConfigClient(req)
+	if err != nil {
+		return nil, err
+	}
+
 	apiextensionsRestClient, err := customresourcedefinition.GetExtensionsAPIRestClient(apiextensionsclient)
 	if err != nil {
 		return nil, err
@@ -379,6 +384,7 @@ func (self *clientManager) VerberClient(req *restful.Request, config *rest.Confi
 		apiextensionsRestClient,
 		pluginsclient.DashboardV1alpha1().RESTClient(),
 		smiaccessclient.AccessV1alpha3().RESTClient(),
+		osmconfigclient.ConfigV1alpha2().RESTClient(),
 		config), nil
 }
 
@@ -673,11 +679,17 @@ func (self *clientManager) initInsecureClients() {
 		panic(err)
 	}
 
+	osmconfigclient, err := osmconfigclientset.NewForConfig(self.insecureConfig)
+	if err != nil {
+		panic(err)
+	}
+
 	self.insecureClient = k8sClient
 	self.insecureAPIExtensionsClient = apiextensionsclient
 	self.insecurePluginClient = pluginclient
 	self.insecureSmiSpecsClient = smispecsclient
 	self.insecureSmiAccessClient = smiaccessclient
+	self.insecureOsmConfigClient = osmconfigclient
 }
 
 func (self *clientManager) initInsecureConfig() {
