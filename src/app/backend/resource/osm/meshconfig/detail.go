@@ -36,7 +36,7 @@ func GetMeshConfigDetail(osmConfigClient osmconfigclientset.Interface, namespace
 func getMeshConfigDetail(meshConfig *osmconfigv1alph2.MeshConfig) *MeshConfigDetail {
 	return &MeshConfigDetail{
 		ObjectMeta: api.NewObjectMeta(meshConfig.ObjectMeta),
-		TypeMeta:   api.NewTypeMeta(api.ResourceKindService),
+		TypeMeta:   api.NewTypeMeta(api.ResourceKindConfigMap),
 		Spec:       meshConfig.Spec,
 	}
 }

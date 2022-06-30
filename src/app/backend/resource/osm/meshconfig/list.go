@@ -21,7 +21,7 @@ type MeshConfig struct {
 	Spec osmconfigv1alph2.MeshConfigSpec `json:"spec,omitempty"`
 }
 
-// MeshConfigList contains a list of services in the cluster.
+// MeshConfigList contains a list of MeshConfigs in the cluster.
 type MeshConfigList struct {
 	ListMeta api.ListMeta `json:"listMeta"`
 
@@ -32,7 +32,7 @@ type MeshConfigList struct {
 	Errors []error `json:"errors"`
 }
 
-// GetServiceList returns a list of all services in the cluster.
+// GetMeshConfigList returns a list of all MeshConfigs in the cluster.
 func GetMeshConfigList(osmConfigClient osmconfigclientset.Interface, nsQuery *common.NamespaceQuery,
 	dsQuery *dataselect.DataSelectQuery) (*MeshConfigList, error) {
 	log.Print("Getting list of all meshconfigs in the cluster")
@@ -44,7 +44,7 @@ func GetMeshConfigList(osmConfigClient osmconfigclientset.Interface, nsQuery *co
 	return GetMeshConfigListFromChannels(channels, dsQuery)
 }
 
-// GetMeshConfigListFromChannels returns a list of all services in the cluster.
+// GetMeshConfigListFromChannels returns a list of all MeshConfigs in the cluster.
 func GetMeshConfigListFromChannels(channels *common.ResourceChannels,
 	dsQuery *dataselect.DataSelectQuery) (*MeshConfigList, error) {
 	meshConfigs := <-channels.MeshConfigList.List
@@ -60,7 +60,7 @@ func GetMeshConfigListFromChannels(channels *common.ResourceChannels,
 func toMeshConfig(meshConfig *osmconfigv1alph2.MeshConfig) MeshConfig {
 	return MeshConfig{
 		ObjectMeta: api.NewObjectMeta(meshConfig.ObjectMeta),
-		TypeMeta:   api.NewTypeMeta(api.ResourceKindService),
+		TypeMeta:   api.NewTypeMeta(api.ResourceKindMeshConfig),
 		Spec:       meshConfig.Spec,
 	}
 }
