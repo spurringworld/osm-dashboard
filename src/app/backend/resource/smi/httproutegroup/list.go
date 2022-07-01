@@ -57,7 +57,7 @@ func GetHttpRouteGroupListFromChannels(channels *common.ResourceChannels,
 func toHttpRouteGroup(httpRouteGroup *smispecsv1alpha4.HTTPRouteGroup) HttpRouteGroup {
 	return HttpRouteGroup{
 		ObjectMeta: api.NewObjectMeta(httpRouteGroup.ObjectMeta),
-		TypeMeta:   api.NewTypeMeta(api.ResourceKindService),
+		TypeMeta:   api.NewTypeMeta(api.ResourceKindHttpRouteGroup),
 	}
 }
 
