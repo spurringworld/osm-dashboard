@@ -3202,7 +3202,7 @@
       </trans-unit>
       <trans-unit id="6134558577578785492" datatype="html">
         <source>OSM Install</source>
-        <target state="new">OSM Install</target>
+        <target state="new">OSM 安装</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
           <context context-type="linenumber">28</context>
@@ -3210,7 +3210,7 @@
       </trans-unit>
       <trans-unit id="7629346217249995487" datatype="html">
         <source>OSM Uninstall</source>
-        <target state="new">OSM Uninstall</target>
+        <target state="new">OSM 卸载</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
           <context context-type="linenumber">33</context>
@@ -5745,7 +5745,7 @@
       </trans-unit>
       <trans-unit id="8513962881554706791" datatype="html">
         <source>Async Proxy Service Mapping</source>
-        <target state="new">Async Proxy Service Mapping</target>
+        <target state="new">异步代理服务映射</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">27</context>
@@ -5753,7 +5753,7 @@
       </trans-unit>
       <trans-unit id="1758572489576903722" datatype="html">
         <source>Egress Policy</source>
-        <target state="new">Egress Policy</target>
+        <target state="new">出口政策</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">34</context>
@@ -5761,7 +5761,7 @@
       </trans-unit>
       <trans-unit id="2932039111138751391" datatype="html">
         <source>Envoy Active Health Checks</source>
-        <target state="new">Envoy Active Health Checks</target>
+        <target state="new">Envoy主动健康检查</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">41</context>
@@ -5769,7 +5769,7 @@
       </trans-unit>
       <trans-unit id="6452778690555249297" datatype="html">
         <source>Ingress Backend Policy</source>
-        <target state="new">Ingress Backend Policy</target>
+        <target state="new">入口后端策略</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">48</context>
@@ -5777,7 +5777,7 @@
       </trans-unit>
       <trans-unit id="251847595766752843" datatype="html">
         <source>Multicluster Mode</source>
-        <target state="new">Multicluster Mode</target>
+        <target state="new">多集群模式</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">55</context>
@@ -5785,7 +5785,7 @@
       </trans-unit>
       <trans-unit id="7845977383245639706" datatype="html">
         <source>Retry Policy</source>
-        <target state="new">Retry Policy</target>
+        <target state="new">重试策略</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">62</context>
@@ -5793,7 +5793,7 @@
       </trans-unit>
       <trans-unit id="5948523838949111183" datatype="html">
         <source>Snapshot Cache Mode</source>
-        <target state="new">Snapshot Cache Mode</target>
+        <target state="new">快照缓存模式</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">69</context>
@@ -5817,7 +5817,7 @@
       </trans-unit>
       <trans-unit id="846804158093382394" datatype="html">
         <source>Egress</source>
-        <target state="new">Egress</target>
+        <target state="new">出口</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">91</context>
@@ -5825,7 +5825,7 @@
       </trans-unit>
       <trans-unit id="8466739602108422579" datatype="html">
         <source>Permissive Traffic Policy Mode</source>
-        <target state="new">Permissive Traffic Policy Mode</target>
+        <target state="new">Permissive Traffic 政策模式</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">98</context>
@@ -5833,7 +5833,7 @@
       </trans-unit>
       <trans-unit id="8704392214783400803" datatype="html">
         <source>Inbound External Authorization</source>
-        <target state="new">Inbound External Authorization</target>
+        <target state="new">Inbound 外部授权</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">111</context>
@@ -5841,7 +5841,7 @@
       </trans-unit>
       <trans-unit id="4816216590591222133" datatype="html">
         <source>Enabled</source>
-        <target state="new">Enabled</target>
+        <target state="new">可用</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">114</context>
@@ -5849,7 +5849,7 @@
       </trans-unit>
       <trans-unit id="2305332925212985612" datatype="html">
         <source>Failure Mode Allow</source>
-        <target state="new">Failure Mode Allow</target>
+        <target state="new">故障模式允许</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">121</context>
@@ -5857,7 +5857,7 @@
       </trans-unit>
       <trans-unit id="1145446413898001631" datatype="html">
         <source>Stat Prefix</source>
-        <target state="new">Stat Prefix</target>
+        <target state="new">Stat前缀</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">128</context>
@@ -5865,7 +5865,7 @@
       </trans-unit>
       <trans-unit id="5956316725115867558" datatype="html">
         <source>Timeout</source>
-        <target state="new">Timeout</target>
+        <target state="new">超时</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">134</context>
@@ -5873,7 +5873,7 @@
       </trans-unit>
       <trans-unit id="4464819557220640202" datatype="html">
         <source>Inbound Port (Exclusion)</source>
-        <target state="new">Inbound Port (Exclusion)</target>
+        <target state="new">Inbound端口 (排除)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">144</context>
@@ -5881,7 +5881,7 @@
       </trans-unit>
       <trans-unit id="4356159115555870159" datatype="html">
         <source>Network Interface (Exclusion)</source>
-        <target state="new">Network Interface (Exclusion)</target>
+        <target state="new">网络接口 (排除)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">156</context>
@@ -5889,7 +5889,7 @@
       </trans-unit>
       <trans-unit id="6026266675635277996" datatype="html">
         <source>Outbound IP Range (Exclusion)</source>
-        <target state="new">Outbound IP Range (Exclusion)</target>
+        <target state="new">Outbound IP范围 (排除)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">168</context>
@@ -5897,7 +5897,7 @@
       </trans-unit>
       <trans-unit id="3466661001278397120" datatype="html">
         <source>Outbound IP Range (Inclusion)</source>
-        <target state="new">Outbound IP Range (Inclusion)</target>
+        <target state="new">Outbound IP范围 (包含)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">179</context>
@@ -5905,7 +5905,7 @@
       </trans-unit>
       <trans-unit id="1942877751972157523" datatype="html">
         <source>Outbound Port (Exclusion)</source>
-        <target state="new">Outbound Port (Exclusion)</target>
+        <target state="new">Outbound端口 (包含)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">191</context>
@@ -5913,7 +5913,7 @@
       </trans-unit>
       <trans-unit id="7164856686778871055" datatype="html">
         <source>Certificate</source>
-        <target state="new">Certificate</target>
+        <target state="new">证书</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">204</context>
@@ -5921,7 +5921,7 @@
       </trans-unit>
       <trans-unit id="2077633357850295100" datatype="html">
         <source>Cert Key Bit Size</source>
-        <target state="new">Cert Key Bit Size</target>
+        <target state="new">证书密钥大小</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">209</context>
@@ -5929,7 +5929,7 @@
       </trans-unit>
       <trans-unit id="3275615325946911653" datatype="html">
         <source>Service Cert Validity Duration</source>
-        <target state="new">Service Cert Validity Duration</target>
+        <target state="new">服务证书有效期</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">213</context>
@@ -5945,7 +5945,7 @@
       </trans-unit>
       <trans-unit id="7561386923717386826" datatype="html">
         <source>Log Level</source>
-        <target state="new">Log Level</target>
+        <target state="new">日志级别</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">226</context>
@@ -5957,7 +5957,7 @@
       </trans-unit>
       <trans-unit id="7298649257036491249" datatype="html">
         <source>Debug Server</source>
-        <target state="new">Debug Server</target>
+        <target state="new">调试</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">230</context>
@@ -5965,7 +5965,7 @@
       </trans-unit>
       <trans-unit id="3739171898414910183" datatype="html">
         <source>Tracing</source>
-        <target state="new">Tracing</target>
+        <target state="new">跟踪</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">237</context>
@@ -5981,7 +5981,7 @@
       </trans-unit>
       <trans-unit id="2534295194500224958" datatype="html">
         <source>Local Proxy Mode</source>
-        <target state="new">Local Proxy Mode</target>
+        <target state="new">本地代理模式</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">257</context>
@@ -5989,7 +5989,7 @@
       </trans-unit>
       <trans-unit id="7536246327361604463" datatype="html">
         <source>Privileged Init Container</source>
-        <target state="new">Privileged Init Container</target>
+        <target state="new">特权初始化容器</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">261</context>
@@ -5997,7 +5997,7 @@
       </trans-unit>
       <trans-unit id="6764923197117193326" datatype="html">
         <source>Config Resync Interval</source>
-        <target state="new">Config Resync Interval</target>
+        <target state="new">配置重新同步间隔</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">268</context>
@@ -6005,7 +6005,7 @@
       </trans-unit>
       <trans-unit id="1060493315473197889" datatype="html">
         <source>Tls Protocol Version (Max)</source>
-        <target state="new">Tls Protocol Version (Max)</target>
+        <target state="new">Tls协议最大版本</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">272</context>
@@ -6013,7 +6013,7 @@
       </trans-unit>
       <trans-unit id="7252331603227904127" datatype="html">
         <source>Tls Protocol Version (Min)</source>
-        <target state="new">Tls Protocol Version (Min)</target>
+        <target state="new">Tls协议最小版本</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
           <context context-type="linenumber">276</context>
