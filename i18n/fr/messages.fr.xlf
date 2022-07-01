@@ -35,7 +35,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/template.html</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">35</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/dialogs/scaleresource/template.html</context>
@@ -47,7 +47,7 @@
         <target>Mettre à jour</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/template.html</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/config/secret/detail/edit/template.html</context>
@@ -79,7 +79,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/template.html</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">49</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/dialogs/restartresource/template.html</context>
@@ -693,7 +693,7 @@
         <target>Cluster</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">58</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/overview/template.html</context>
@@ -828,6 +828,10 @@
           <context context-type="linenumber">69</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/namespace/template.html</context>
           <context context-type="linenumber">53</context>
         </context-group>
@@ -952,6 +956,10 @@
           <context context-type="linenumber">84</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/networkpolicy/template.html</context>
           <context context-type="linenumber">54</context>
         </context-group>
@@ -1002,6 +1010,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/subject/template.html</context>
           <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">61</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/create/from/form/template.html</context>
@@ -1078,6 +1090,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/job/template.html</context>
           <context context-type="linenumber">102</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
+          <context context-type="linenumber">86</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/namespace/template.html</context>
@@ -1471,7 +1487,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
       <trans-unit id="795890916060309463" datatype="html">
@@ -1483,7 +1499,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">66</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4230227443728227002" datatype="html">
@@ -1495,7 +1511,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5972502836680454671" datatype="html">
@@ -1622,13 +1638,29 @@
           <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="6845705687289409609" datatype="html">
+        <source>OSM </source>
+        <target state="new">OSM </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
+          <context context-type="linenumber">88,89</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5392519708879096086" datatype="html">
+        <source>Mesh Config </source>
+        <target state="new">Mesh Config </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
+          <context context-type="linenumber">94</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="7330483736355831593" datatype="html">
         <source>Config and Storage </source>
         <target state="new">Config and Storage
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">88</context>
+          <context context-type="linenumber">99</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4287392502726135197" datatype="html">
@@ -1637,7 +1669,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">94</context>
+          <context context-type="linenumber">105</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2304348476142864790" datatype="html">
@@ -1646,7 +1678,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">100</context>
+          <context context-type="linenumber">111</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2104548579314351919" datatype="html">
@@ -1655,7 +1687,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">106</context>
+          <context context-type="linenumber">117</context>
         </context-group>
       </trans-unit>
       <trans-unit id="2733722431826186016" datatype="html">
@@ -1664,7 +1696,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">110</context>
+          <context context-type="linenumber">121</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6283035888557195281" datatype="html">
@@ -1673,7 +1705,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">116</context>
+          <context context-type="linenumber">127</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1243984730371237241" datatype="html">
@@ -1682,7 +1714,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">120</context>
+          <context context-type="linenumber">131</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4740026766388750543" datatype="html">
@@ -1691,7 +1723,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">125</context>
+          <context context-type="linenumber">136</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1861657886309326" datatype="html">
@@ -1699,7 +1731,7 @@
         <target state="new">Events </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">130</context>
+          <context context-type="linenumber">141</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1813894172148248223" datatype="html">
@@ -1716,7 +1748,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">134</context>
+          <context context-type="linenumber">145</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7446822750532518350" datatype="html">
@@ -1725,7 +1757,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">139</context>
+          <context context-type="linenumber">150</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7682253854615514679" datatype="html">
@@ -1734,7 +1766,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">144</context>
+          <context context-type="linenumber">155</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6852503341223458730" datatype="html">
@@ -1743,7 +1775,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">159</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4052052481087794292" datatype="html">
@@ -1752,7 +1784,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">154</context>
+          <context context-type="linenumber">165</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4499651527836994743" datatype="html">
@@ -1761,7 +1793,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">160</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6462224380417375328" datatype="html">
@@ -1770,7 +1802,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">165</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7206849842963127297" datatype="html">
@@ -1779,7 +1811,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">173</context>
+          <context context-type="linenumber">184</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7293190222859783293" datatype="html">
@@ -1788,7 +1820,7 @@
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">184</context>
+          <context context-type="linenumber">195</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7207867066492367466" datatype="html">
@@ -1797,7 +1829,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">192</context>
+          <context context-type="linenumber">203</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4894366697856944217" datatype="html">
@@ -1806,7 +1838,7 @@
       </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/chrome/nav/template.html</context>
-          <context context-type="linenumber">197</context>
+          <context context-type="linenumber">208</context>
         </context-group>
       </trans-unit>
       <trans-unit id="322645671410395107" datatype="html">
@@ -1926,7 +1958,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">48</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7705450268368320451" datatype="html">
@@ -1990,7 +2022,15 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="325083656076062067" datatype="html">
+        <source>Meshconfigs</source>
+        <target state="new">Meshconfigs</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
+          <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8146913170965682434" datatype="html">
@@ -1998,7 +2038,7 @@
         <target state="new">Config And Storage</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">51</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6984509752476604600" datatype="html">
@@ -2029,12 +2069,36 @@
           <context context-type="linenumber">112</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="4778334653435063448" datatype="html">
+        <source>Mesh Config</source>
+        <target state="new">Mesh Config</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6134558577578785492" datatype="html">
+        <source>OSM Install</source>
+        <target state="new">OSM Install</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7629346217249995487" datatype="html">
+        <source>OSM Uninstall</source>
+        <target state="new">OSM Uninstall</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4588386421413885519" datatype="html">
         <source>Secrets</source>
         <target state="new">Secrets</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">56</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/overview/template.html</context>
@@ -2066,7 +2130,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5680114016457280827" datatype="html">
@@ -2164,6 +2228,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/job/template.html</context>
           <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
+          <context context-type="linenumber">23</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/namespace/template.html</context>
@@ -2431,7 +2499,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8394382410283043922" datatype="html">
@@ -2643,7 +2711,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">53</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="434404492084234684" datatype="html">
@@ -2759,7 +2827,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">58</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3463375855672784957" datatype="html">
@@ -2771,7 +2839,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="960921869392057255" datatype="html">
@@ -2783,7 +2851,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
       <trans-unit id="97066167691656299" datatype="html">
@@ -3082,6 +3150,10 @@
           <context context-type="linenumber">124</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/meshconfig/template.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/common/components/resourcelist/namespace/template.html</context>
           <context context-type="linenumber">80</context>
         </context-group>
@@ -3163,7 +3235,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">54</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6901018060567164184" datatype="html">
@@ -3387,7 +3459,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">66</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4930506384627295710" datatype="html">
@@ -3395,7 +3467,7 @@
         <target state="new">Settings</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8623978917681527907" datatype="html">
@@ -3475,7 +3547,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8384742917026482252" datatype="html">
@@ -3499,7 +3571,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7825570888384392250" datatype="html">
@@ -3815,6 +3887,10 @@
           <context context-type="sourcefile">src/app/frontend/common/components/policyrule/template.html</context>
           <context context-type="linenumber">36</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">284</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="1292699022746959928" datatype="html">
         <source>Non-resource URL</source>
@@ -4073,7 +4149,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4814940703935231049" datatype="html">
@@ -4121,7 +4197,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4580988005648117665" datatype="html">
@@ -4472,6 +4548,14 @@
           open_in_new
           <x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i>"/></target>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/create/from/file/template.html</context>
           <context context-type="linenumber">28</context>
         </context-group>
@@ -4602,6 +4686,10 @@
         <source>App name</source>
         <target>Nom de l'application</target>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/create/from/form/template.html</context>
           <context context-type="linenumber">23</context>
         </context-group>
@@ -4609,6 +4697,10 @@
       <trans-unit id="4216678889012737533" datatype="html">
         <source> Deployment or service with this name already exists within namespace. </source>
         <target>Un déploiement ou un service ayant ce nom existe déjà dans l'espace de nom.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/create/from/form/template.html</context>
           <context context-type="linenumber">35</context>
@@ -4618,6 +4710,10 @@
         <source> Application name is required. </source>
         <target>Le nom de l'application est requis.</target>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/create/from/form/template.html</context>
           <context context-type="linenumber">39</context>
         </context-group>
@@ -4626,6 +4722,10 @@
         <source> Application name must start with a lowercase letter and contain only lowercase letters, numbers, and '-' between words. </source>
         <target>Le nom de l'application doit commencer avec une lettre minuscule et contenir uniquement des lettres minuscules, des nombres, et des '-' entre les mots.</target>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/create/from/form/template.html</context>
           <context context-type="linenumber">41</context>
         </context-group>
@@ -4633,6 +4733,10 @@
       <trans-unit id="3840571521050129557" datatype="html">
         <source>An 'app' label with this value will be added to the Deployment and Service that get deployed.</source>
         <target>Une étiquette 'app' avec cette valeur sera ajoutée au déploiement et au service qui seront déployés.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/create/from/form/template.html</context>
           <context context-type="linenumber">48</context>
@@ -4811,6 +4915,10 @@
             Créer un nouvel espace de nom...
           </target>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/create/from/form/template.html</context>
           <context context-type="linenumber">151</context>
         </context-group>
@@ -4818,6 +4926,10 @@
       <trans-unit id="2776781342795162475" datatype="html">
         <source>Namespaces let you partition resources into logically named groups.</source>
         <target>Les espaces de noms vous permettent de distribuer vos ressources dans des groupes logiques nommés.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/common/dialogs/editresource/form/template.html</context>
+          <context context-type="linenumber">71</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/create/from/form/template.html</context>
           <context context-type="linenumber">155</context>
@@ -5200,6 +5312,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/search/template.html</context>
           <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4398643874980850189" datatype="html">
+        <source>Meshconfig</source>
+        <target state="new">Meshconfig</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/index.messages.ts</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6117946241126833991" datatype="html">
@@ -5825,6 +5945,290 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/frontend/resource/config/secret/detail/template.html</context>
           <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1488418866327771257" datatype="html">
+        <source>Feature Flags</source>
+        <target state="new">Feature Flags</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8513962881554706791" datatype="html">
+        <source>Async Proxy Service Mapping</source>
+        <target state="new">Async Proxy Service Mapping</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1758572489576903722" datatype="html">
+        <source>Egress Policy</source>
+        <target state="new">Egress Policy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2932039111138751391" datatype="html">
+        <source>Envoy Active Health Checks</source>
+        <target state="new">Envoy Active Health Checks</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6452778690555249297" datatype="html">
+        <source>Ingress Backend Policy</source>
+        <target state="new">Ingress Backend Policy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="251847595766752843" datatype="html">
+        <source>Multicluster Mode</source>
+        <target state="new">Multicluster Mode</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7845977383245639706" datatype="html">
+        <source>Retry Policy</source>
+        <target state="new">Retry Policy</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5948523838949111183" datatype="html">
+        <source>Snapshot Cache Mode</source>
+        <target state="new">Snapshot Cache Mode</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3643179755948647570" datatype="html">
+        <source>WASM Stats</source>
+        <target state="new">WASM Stats</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="369679454877964077" datatype="html">
+        <source>Traffic</source>
+        <target state="new">Traffic</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="846804158093382394" datatype="html">
+        <source>Egress</source>
+        <target state="new">Egress</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">91</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8466739602108422579" datatype="html">
+        <source>Permissive Traffic Policy Mode</source>
+        <target state="new">Permissive Traffic Policy Mode</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8704392214783400803" datatype="html">
+        <source>Inbound External Authorization</source>
+        <target state="new">Inbound External Authorization</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4816216590591222133" datatype="html">
+        <source>Enabled</source>
+        <target state="new">Enabled</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2305332925212985612" datatype="html">
+        <source>Failure Mode Allow</source>
+        <target state="new">Failure Mode Allow</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1145446413898001631" datatype="html">
+        <source>Stat Prefix</source>
+        <target state="new">Stat Prefix</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">128</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5956316725115867558" datatype="html">
+        <source>Timeout</source>
+        <target state="new">Timeout</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4464819557220640202" datatype="html">
+        <source>Inbound Port (Exclusion)</source>
+        <target state="new">Inbound Port (Exclusion)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">144</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4356159115555870159" datatype="html">
+        <source>Network Interface (Exclusion)</source>
+        <target state="new">Network Interface (Exclusion)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6026266675635277996" datatype="html">
+        <source>Outbound IP Range (Exclusion)</source>
+        <target state="new">Outbound IP Range (Exclusion)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">168</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3466661001278397120" datatype="html">
+        <source>Outbound IP Range (Inclusion)</source>
+        <target state="new">Outbound IP Range (Inclusion)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">179</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1942877751972157523" datatype="html">
+        <source>Outbound Port (Exclusion)</source>
+        <target state="new">Outbound Port (Exclusion)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">191</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7164856686778871055" datatype="html">
+        <source>Certificate</source>
+        <target state="new">Certificate</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">204</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2077633357850295100" datatype="html">
+        <source>Cert Key Bit Size</source>
+        <target state="new">Cert Key Bit Size</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">209</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3275615325946911653" datatype="html">
+        <source>Service Cert Validity Duration</source>
+        <target state="new">Service Cert Validity Duration</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">213</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="503359249737927668" datatype="html">
+        <source>Observability</source>
+        <target state="new">Observability</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">221</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7561386923717386826" datatype="html">
+        <source>Log Level</source>
+        <target state="new">Log Level</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">226</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">253</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7298649257036491249" datatype="html">
+        <source>Debug Server</source>
+        <target state="new">Debug Server</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">230</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3739171898414910183" datatype="html">
+        <source>Tracing</source>
+        <target state="new">Tracing</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">237</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5052847322835338113" datatype="html">
+        <source>Sidecar</source>
+        <target state="new">Sidecar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">248</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2534295194500224958" datatype="html">
+        <source>Local Proxy Mode</source>
+        <target state="new">Local Proxy Mode</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">257</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7536246327361604463" datatype="html">
+        <source>Privileged Init Container</source>
+        <target state="new">Privileged Init Container</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">261</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6764923197117193326" datatype="html">
+        <source>Config Resync Interval</source>
+        <target state="new">Config Resync Interval</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">268</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1060493315473197889" datatype="html">
+        <source>Tls Protocol Version (Max)</source>
+        <target state="new">Tls Protocol Version (Max)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">272</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7252331603227904127" datatype="html">
+        <source>Tls Protocol Version (Min)</source>
+        <target state="new">Tls Protocol Version (Min)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/frontend/resource/osm/meshconfig/detail/template.html</context>
+          <context context-type="linenumber">276</context>
         </context-group>
       </trans-unit>
       <trans-unit id="149997197907824533" datatype="html">

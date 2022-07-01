@@ -75,7 +75,6 @@ import (
 	"github.com/kubernetes/dashboard/src/app/backend/resource/statefulset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/storageclass"
 
-
 	"github.com/kubernetes/dashboard/src/app/backend/scaling"
 	"github.com/kubernetes/dashboard/src/app/backend/settings"
 	settingsApi "github.com/kubernetes/dashboard/src/app/backend/settings/api"
@@ -674,6 +673,14 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 		apiV1Ws.GET("/meshconfig/{namespace}").
 			To(apiHandler.handleGetMeshConfigList).
 			Writes(meshconfig.MeshConfigList{}))
+	apiV1Ws.Route(
+		apiV1Ws.GET("/meshconfig/{namespace}/{name}").
+			To(apiHandler.handleGetMeshConfigDetail).
+			Writes(meshconfig.MeshConfigDetail{}))
+	apiV1Ws.Route(
+		apiV1Ws.GET("/meshconfig/{namespace}/{meshconfig}/event").
+			To(apiHandler.handleGetMeshConfigControllerEvents).
+			Writes(common.EventList{}))
 
 	apiV1Ws.Route(
 		apiV1Ws.GET("/crd").
@@ -1053,6 +1060,41 @@ func (apiHandler *APIHandler) handleGetMeshConfigList(request *restful.Request, 
 	namespace := parseNamespacePathParameter(request)
 	dataSelect := parser.ParseDataSelectPathParameter(request)
 	result, err := meshconfig.GetMeshConfigList(osmConfigClient, namespace, dataSelect)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleGetMeshConfigDetail(request *restful.Request, response *restful.Response) {
+	osmConfigClient, err := apiHandler.cManager.OsmConfigClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	namespace := request.PathParameter("namespace")
+	name := request.PathParameter("name")
+	result, err := meshconfig.GetMeshConfigDetail(osmConfigClient, namespace, name)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleGetMeshConfigControllerEvents(request *restful.Request, response *restful.Response) {
+	k8sClient, err := apiHandler.cManager.Client(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	namespace := request.PathParameter("namespace")
+	name := request.PathParameter("meshconfig")
+	dataSelect := parser.ParseDataSelectPathParameter(request)
+	result, err := event.GetResourceEvents(k8sClient, dataSelect, namespace, name)
 	if err != nil {
 		errors.HandleInternalError(response, err)
 		return

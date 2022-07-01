@@ -44,6 +44,7 @@ export enum Resource {
   imagePullSecret = 'imagepullsecret',
   ingress = 'ingress',
   service = 'service',
+  meshconfig = 'meshconfig',
   serviceAccount = 'serviceaccount',
   networkPolicy = 'networkpolicy',
   event = 'event',

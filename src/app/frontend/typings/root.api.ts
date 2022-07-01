@@ -201,6 +201,10 @@ export interface ServiceList extends ResourceList {
   services: Service[];
 }
 
+export interface MeshconfigList extends ResourceList {
+  meshconfigs: Meshconfig[];
+}
+
 export interface StatefulSetList extends ResourceList {
   cumulativeMetrics: Metric[] | null;
   statefulSets: StatefulSet[];
@@ -398,6 +402,10 @@ export interface Service extends Resource {
   clusterIP: string;
 }
 
+export interface Meshconfig extends Resource {
+  selector: StringMap;
+}
+
 export interface StatefulSet extends Resource {
   podInfo: PodInfo;
   containerImages: string[];
@@ -460,6 +468,11 @@ export interface ServiceDetail extends ResourceDetail {
   clusterIP: string;
   podList: PodList;
   sessionAffinity: string;
+}
+
+export interface MeshconfigDetail extends ResourceDetail {
+  selector: StringMap;
+	spec: object;
 }
 
 export interface DaemonSetDetail extends ResourceDetail {
