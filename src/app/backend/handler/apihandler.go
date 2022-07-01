@@ -40,6 +40,7 @@ import (
 	clientapi "github.com/kubernetes/dashboard/src/app/backend/client/api"
 	"github.com/kubernetes/dashboard/src/app/backend/errors"
 	"github.com/kubernetes/dashboard/src/app/backend/integration"
+	"github.com/kubernetes/dashboard/src/app/backend/osmcli"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/clusterrole"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/clusterrolebinding"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/common"
@@ -134,6 +135,9 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 
 	systemBannerHandler := systembanner.NewSystemBannerHandler(sbManager)
 	systemBannerHandler.Install(apiV1Ws)
+
+	osmCliHandler := osmcli.NewOsmCliHandler(cManager)
+	osmCliHandler.Install(apiV1Ws)
 
 	apiV1Ws.Route(
 		apiV1Ws.GET("csrftoken/{action}").
