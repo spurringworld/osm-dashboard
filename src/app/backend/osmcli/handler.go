@@ -15,7 +15,6 @@ import (
 	cli "github.com/openservicemesh/osm/pkg/cli"
 
 	helm "helm.sh/helm/v3/pkg/action"
-	"helm.sh/helm/v3/pkg/chart"
 	"helm.sh/helm/v3/pkg/chart/loader"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -43,19 +42,19 @@ var chartTGZSource []byte
 
 type OsmCliHandler struct {
 	clientManager clientapi.ClientManager
-
-
 }
 
 func (self OsmCliHandler) Install(ws *restful.WebService) {
 	ws.Route(
-		ws.GET("/osm/cmd/cli/install").
+		ws.POST("/osm/cmd/cli/install").
 			To(self.handleOsmInstall).
+			Reads(OsmInstallSpec{}).
 			Writes(api.CsrfToken{}))
 
 	ws.Route(
-		ws.GET("/osm/cmd/cli/uninstall").
+		ws.POST("/osm/cmd/cli/uninstall").
 			To(self.handleOsmUninstall).
+			Reads(OsmUninstallSpec{}).
 			Writes(api.CsrfToken{}))
 }
 
@@ -67,13 +66,19 @@ func debug(format string, v ...interface{}) {
 }
 
 func (self OsmCliHandler) handleOsmInstall(request *restful.Request, response *restful.Response) {
+	osmInstallSpec := NewOsmInstallSpec()
+	if err := request.ReadEntity(&osmInstallSpec); err != nil {
+		backenderrors.HandleInternalError(response, err)
+		return
+	}
+
 	actionConfig := new(helm.Configuration)
 	_ = actionConfig.Init(settings.RESTClientGetter(), settings.Namespace(), "secret", debug)
 
 	installClient := helm.NewInstall(actionConfig)
 
-	installClient.ReleaseName = "osm"
-	installClient.Namespace = "osm-system"
+	installClient.ReleaseName = osmInstallSpec.MeshName
+	installClient.Namespace = osmInstallSpec.Namespace
 	installClient.CreateNamespace = true
 	installClient.Wait = false
 	installClient.Atomic = false
@@ -85,15 +90,12 @@ func (self OsmCliHandler) handleOsmInstall(request *restful.Request, response *r
 	values["deployPrometheus"] = true
 	values["enablePermissiveTrafficPolicy"] = true
 	values["enforceSingleMesh"] = true
-	values["meshName"] = "osm"
+	values["meshName"] = osmInstallSpec.MeshName
 
-	chartPath := ""
-	var chartRequested *chart.Chart
-	var err error
-	if chartPath != "" {
-		chartRequested, err = loader.Load(chartPath)
-	} else {
-		chartRequested, err = loader.LoadArchive(bytes.NewReader(chartTGZSource))
+	chartRequested, err := loader.LoadArchive(bytes.NewReader(chartTGZSource))
+	if err != nil {
+		backenderrors.HandleInternalError(response, err)
+		return
 	}
 
 	k8sClient, err := self.clientManager.Client(request)
@@ -115,7 +117,7 @@ func (self OsmCliHandler) handleOsmInstall(request *restful.Request, response *r
 		}
 	}
 
-	fmt.Printf("OSM installed successfully in namespace [%s] with mesh name [%s]\n", settings.Namespace(), "osm")
+	fmt.Printf("OSM installed successfully in namespace [%s] with mesh name [%s]\n", settings.Namespace(), osmInstallSpec.MeshName)
 
 	// TODO
 	action := request.PathParameter("action")
@@ -124,15 +126,20 @@ func (self OsmCliHandler) handleOsmInstall(request *restful.Request, response *r
 }
 
 func (self OsmCliHandler) handleOsmUninstall(request *restful.Request, response *restful.Response) {
+	osmUninstallSpec := NewOsmUninstallSpec()
+	if err := request.ReadEntity(&osmUninstallSpec); err != nil {
+		backenderrors.HandleInternalError(response, err)
+		return
+	}
+
 	actionConfig := new(helm.Configuration)
 	_ = actionConfig.Init(settings.RESTClientGetter(), settings.Namespace(), "secret", debug)
 
-	var uninstallClient *helm.Uninstall
-	uninstallClient = helm.NewUninstall(actionConfig)
+	helmUninstallClient := helm.NewUninstall(actionConfig)
 
 	deleteClusterWideResources := true
 
-	_, err := uninstallClient.Run("osm")
+	_, err := helmUninstallClient.Run("osm")
 	if err != nil {
 		println("error")
 	}
