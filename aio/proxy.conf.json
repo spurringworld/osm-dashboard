@@ -1,10 +1,10 @@
 {
   "/api": {
-    "target": "http://192.168.10.35:9090",
+    "target": "http://localhost:9090",
     "secure": false
   },
   "/config": {
-    "target": "http://192.168.10.35:9090",
+    "target": "http://localhost:9090",
     "secure": false
   }
 }
