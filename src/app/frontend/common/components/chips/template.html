@@ -17,7 +17,7 @@ limitations under the License.
 <mat-chip-list>
   <ng-container *ngFor="let key of keys; let i = index">
     <mat-chip *ngIf="isVisible(i)"
-              [disableRipple]="true">
+              [disableRipple]="true" (removed)="remove(key)">
       <ng-container *ngIf="isSerializedRef(map[key])">
         <span>{{ key }}:&nbsp;</span>
         <a class="kd-clickable"
@@ -45,8 +45,12 @@ limitations under the License.
           <ng-container *ngIf="!isHref(map[key])">{{ map[key] }}</ng-container>
         </ng-container>
       </ng-container>
+			<button matChipRemove *ngIf="edit">
+				<mat-icon>cancel</mat-icon>
+			</button>
       <!-- beautify ignore:end -->
     </mat-chip>
+		<!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
   </ng-container>
   <div *ngIf="isAnythingHidden()"
        (click)="toggleView()"
@@ -56,5 +60,11 @@ limitations under the License.
     <ng-container *ngIf="!isShowingAll"
                   i18n>Show all</ng-container>
   </div>
-  <ng-container *ngIf="keys.length === 0">-</ng-container>
+  <ng-container *ngIf="!edit && keys.length === 0">-</ng-container>
+	<input *ngIf="edit" matInput placeholder="+"
+						 [matChipInputFor]="chipList"
+						 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+						 [matChipInputAddOnBlur]="addOnBlur"
+						 (change)="add($event)"/>
+	
 </mat-chip-list>

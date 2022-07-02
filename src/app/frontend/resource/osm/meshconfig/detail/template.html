@@ -26,56 +26,56 @@ limitations under the License.
     <kd-property>
 			<div key i18n>Async Proxy Service Mapping</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableAsyncProxyServiceMapping" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableAsyncProxyServiceMapping" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
     <kd-property>
 			<div key i18n>Egress Policy</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableEgressPolicy" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableEgressPolicy" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
     <kd-property>
 			<div key i18n>Envoy Active Health Checks</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableEnvoyActiveHealthChecks" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableEnvoyActiveHealthChecks" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
     <kd-property>
 			<div key i18n>Ingress Backend Policy</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableIngressBackendPolicy" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableIngressBackendPolicy" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
     <kd-property>
 			<div key i18n>Multicluster Mode</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableMulticlusterMode" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableMulticlusterMode" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
     <kd-property>
 			<div key i18n>Retry Policy</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableRetryPolicy" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableRetryPolicy" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
     <kd-property>
 			<div key i18n>Snapshot Cache Mode</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableSnapshotCacheMode" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableSnapshotCacheMode" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
     <kd-property>
 			<div key i18n>WASM Stats</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableWASMStats" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.featureFlags.enableWASMStats" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
@@ -90,14 +90,14 @@ limitations under the License.
     <kd-property>
 			<div key i18n>Egress</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.enableEgress" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.enableEgress" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
     <kd-property>
 			<div key i18n>Permissive Traffic Policy Mode</div>
       <div value>
-        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.enablePermissiveTrafficPolicyMode" disabled style="opacity: 1;">
+        <mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.enablePermissiveTrafficPolicyMode" >
 				</mat-slide-toggle>
       </div>
     </kd-property>
@@ -113,14 +113,14 @@ limitations under the License.
 			<kd-property>
 				<div key i18n>Enabled</div>
 				<div value>
-					<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.inboundExternalAuthorization.enable" disabled style="opacity: 1;">
+					<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.inboundExternalAuthorization.enable" >
 					</mat-slide-toggle>
 				</div>
 			</kd-property>
 			<kd-property>
 				<div key i18n>Failure Mode Allow</div>
 				<div value>
-					<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.inboundExternalAuthorization.failureModeAllow" disabled style="opacity: 1;">
+					<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.traffic.inboundExternalAuthorization.failureModeAllow" >
 					</mat-slide-toggle>
 				</div>
 			</kd-property>
@@ -133,7 +133,7 @@ limitations under the License.
 			<kd-property>
 				<div key i18n>Timeout</div>
 				<div value>
-					{{meshconfig.spec.traffic.inboundExternalAuthorization.timeout}}
+					<input matInput [value]="meshconfig.spec.traffic.inboundExternalAuthorization.timeout"/>
 				</div>
 			</kd-property>
 		</ng-container>
@@ -145,7 +145,7 @@ limitations under the License.
 		<ng-container *ngIf="meshconfig.spec.traffic?.inboundPortExclusionList">
 			<kd-property>
 				<div value>
-					<kd-chips [map]="meshconfig.spec.traffic?.inboundPortExclusionList"></kd-chips>
+					<kd-chips [edit]="true" [map]="meshconfig.spec.traffic?.inboundPortExclusionList"></kd-chips>
 				</div>
 			</kd-property>
 		</ng-container>
@@ -157,7 +157,7 @@ limitations under the License.
 		<ng-container *ngIf="meshconfig.spec.traffic?.networkInterfaceExclusionList">
 			<kd-property>
 				<div value>
-					<kd-chips [map]="meshconfig.spec.traffic?.networkInterfaceExclusionList"></kd-chips>
+					<kd-chips [edit]="true" [map]="meshconfig.spec.traffic?.networkInterfaceExclusionList"></kd-chips>
 				</div>
 			</kd-property>
 		</ng-container>
@@ -169,7 +169,7 @@ limitations under the License.
 		<ng-container *ngIf="meshconfig.spec.traffic?.outboundIPRangeExclusionList">
 			<kd-property>
 				<div value>
-					<kd-chips [map]="meshconfig.spec.traffic?.outboundIPRangeExclusionList"></kd-chips>
+					<kd-chips [edit]="true" [map]="meshconfig.spec.traffic?.outboundIPRangeExclusionList"></kd-chips>
 				</div>
 			</kd-property>
 		</ng-container>
@@ -180,7 +180,7 @@ limitations under the License.
 		<ng-container *ngIf="meshconfig.spec.traffic?.outboundIPRangeInclusionList">
 			<kd-property>
 				<div value>
-					<kd-chips [map]="meshconfig.spec.traffic?.outboundIPRangeInclusionList"></kd-chips>
+					<kd-chips [edit]="true" [map]="meshconfig.spec.traffic?.outboundIPRangeInclusionList"></kd-chips>
 				</div>
 			</kd-property>
 		</ng-container>
@@ -192,7 +192,7 @@ limitations under the License.
 		<ng-container *ngIf="meshconfig.spec.traffic?.outboundPortExclusionList">
 			<kd-property>
 				<div value>
-					<kd-chips [map]="meshconfig.spec.traffic?.outboundPortExclusionList"></kd-chips>
+					<kd-chips [edit]="true" [map]="meshconfig.spec.traffic?.outboundPortExclusionList"></kd-chips>
 				</div>
 			</kd-property>
 		</ng-container>
@@ -207,11 +207,15 @@ limitations under the License.
        fxLayout="row wrap">
     <kd-property>
 			<div key i18n>Cert Key Bit Size</div>
-      <div value>{{meshconfig.spec.certificate.certKeyBitSize}}Bit</div>
+      <div value>
+				<span style="display: inline-block;"><input style="width: 60px;" matInput [value]="meshconfig.spec.certificate.certKeyBitSize"/></span><span>Bit</span>
+			</div>
     </kd-property>
     <kd-property>
 			<div key i18n>Service Cert Validity Duration</div>
-      <div value>{{meshconfig.spec.certificate.serviceCertValidityDuration}}</div>
+      <div value>
+				<input matInput [value]="meshconfig.spec.certificate.serviceCertValidityDuration"/>
+			</div>
     </kd-property>
 	</div>
 </kd-card>
@@ -224,19 +228,25 @@ limitations under the License.
        fxLayout="row wrap">
     <kd-property>
 			<div key i18n>Log Level</div>
-      <div value>{{meshconfig.spec.observability.osmLogLevel}}</div>
+      <div value>
+				<mat-select [(value)]="meshconfig.spec.observability.osmLogLevel">
+			    <mat-option *ngFor="let level of logLevels" [value]="level.value">
+			      {{level.label}}
+			    </mat-option>
+			  </mat-select>
+			</div>
     </kd-property>
     <kd-property>
 			<div key i18n>Debug Server</div>
       <div value>
-				<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.observability.enableDebugServer" disabled style="opacity: 1;">
+				<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.observability.enableDebugServer" >
 				</mat-slide-toggle>
 			</div>
     </kd-property>
     <kd-property>
 			<div key i18n>Tracing</div>
       <div value>
-				<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.observability.tracing.enable" disabled style="opacity: 1;">
+				<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.observability.tracing.enable" >
 				</mat-slide-toggle>
 			</div>
     </kd-property>
@@ -251,7 +261,13 @@ limitations under the License.
        fxLayout="row wrap">
     <kd-property>
 			<div key i18n>Log Level</div>
-      <div value>{{meshconfig.spec.sidecar.logLevel}}</div>
+      <div value>
+				<mat-select [(value)]="meshconfig.spec.sidecar.logLevel">
+			    <mat-option *ngFor="let level of logLevels" [value]="level.value">
+			      {{level.label}}
+			    </mat-option>
+			  </mat-select>
+			</div>
     </kd-property>
     <kd-property>
 			<div key i18n>Local Proxy Mode</div>
@@ -260,21 +276,27 @@ limitations under the License.
     <kd-property>
 			<div key i18n>Privileged Init Container</div>
       <div value>
-				<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.sidecar.enablePrivilegedInitContainer" disabled style="opacity: 1;">
+				<mat-slide-toggle labelPosition="after" [checked]="meshconfig.spec.sidecar.enablePrivilegedInitContainer" >
 				</mat-slide-toggle>
 			</div>
     </kd-property>
     <kd-property>
 			<div key i18n>Config Resync Interval</div>
-      <div value>{{meshconfig.spec.sidecar.configResyncInterval}}</div>
-    </kd-property>
-    <kd-property>
-			<div key i18n>Tls Protocol Version (Max)</div>
-      <div value>{{meshconfig.spec.sidecar.tlsMaxProtocolVersion}}</div>
+      <div value>
+				<input matInput [value]="meshconfig.spec.sidecar.configResyncInterval"/>
+			</div>
     </kd-property>
     <kd-property>
 			<div key i18n>Tls Protocol Version (Min)</div>
-      <div value>{{meshconfig.spec.sidecar.tlsMinProtocolVersion}}</div>
+      <div value>
+				<input matInput [value]="meshconfig.spec.sidecar.tlsMinProtocolVersion"/>
+			</div>
+    </kd-property>
+    <kd-property>
+			<div key i18n>Tls Protocol Version (Max)</div>
+      <div value>
+				<input matInput [value]="meshconfig.spec.sidecar.tlsMaxProtocolVersion"/>
+			</div>
     </kd-property>
 	</div>
   <div content
