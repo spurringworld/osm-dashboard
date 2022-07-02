@@ -24,6 +24,7 @@ import {NamespacedResourceService} from '@common/services/resource/resource';
 import {MenuComponent} from '../../list/column/menu/component';
 import {ListGroupIdentifier, ListIdentifier} from '../groupids';
 import {Status, StatusClass} from '../statuses';
+import {VerberService} from '@common/services/global/verber';
 
 @Component({
   selector: 'kd-meshconfig-list',
@@ -36,7 +37,8 @@ export class MeshConfigListComponent extends ResourceListWithStatuses<Meshconfig
   constructor(
     private readonly service_: NamespacedResourceService<MeshconfigList>,
     notifications: NotificationsService,
-    cdr: ChangeDetectorRef
+    cdr: ChangeDetectorRef,
+    private readonly verber_: VerberService
   ) {
     super('meshconfig', notifications, cdr);
     this.id = ListIdentifier.meshConfig;
@@ -77,6 +79,9 @@ export class MeshConfigListComponent extends ResourceListWithStatuses<Meshconfig
     return ['statusicon', 'name', 'labels', 'created'];
   }
 
+  onInstall(): void {
+    this.verber_.showInstallDialog('',null,null);
+  }
   private shouldShowNamespaceColumn_(): boolean {
     return this.namespaceService_.areMultipleNamespacesSelected();
   }

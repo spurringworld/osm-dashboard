@@ -61,6 +61,9 @@ limitations under the License.
                   i18n>Show all</ng-container>
   </div>
   <ng-container *ngIf="!edit && keys.length === 0">-</ng-container>
+	<mat-chip *ngIf="edit && placeholder && keys.length === 0" style="opacity: 0.5;color: #999;" [disableRipple]="true" >
+		{{placeholder}}
+	</mat-chip>
 	<input *ngIf="edit" matInput placeholder="+"
 						 [matChipInputFor]="chipList"
 						 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"

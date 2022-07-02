@@ -15,22 +15,23 @@ limitations under the License.
 -->
 
 <h2 mat-dialog-title
-    i18n>Edit a resource</h2>
+    i18n>OSM Install</h2>
 <mat-dialog-content class="kd-dialog-text">
-  <mat-button-toggle-group #group="matButtonToggleGroup">
-    <mat-button-toggle [value]="modes.YAML"
-                       [checked]="true">YAML</mat-button-toggle>
-    <mat-button-toggle [value]="modes.JSON">JSON</mat-button-toggle>
-  </mat-button-toggle-group>
-  <kd-text-input [(text)]="text"
-                 [prettify]="false"
-                 [mode]="getSelectedMode()"></kd-text-input>
+  <kd-dialog-form></kd-dialog-form>
   <div class="kd-equivalent-block kd-muted kd-bg-card-dark"
        fxLayoutAlign=" center">
     <mat-icon>info</mat-icon>
     <div>
       <span i18n>This action is equivalent to:</span>
-      <code>kubectl apply -f &lt;spec.{{ selectedMode }}&gt;</code>
+      <code>
+				<br/><ng-container>osm install \</ng-container>
+				<br/><ng-container>--mesh-name "$osm_mesh_name" \</ng-container>
+				<br/><ng-container>--osm-namespace "$osm_namespace" \</ng-container>
+				<br/><ng-container>--set=osm.enablePermissiveTrafficPolicy=true \</ng-container>
+				<br/><ng-container>--set=osm.deployPrometheus=true|false \</ng-container>
+				<br/><ng-container>--set=osm.deployGrafana=true \</ng-container>
+				<br/><ng-container>--set=osm.deployJaeger=true</ng-container>
+			</code>
     </div>
   </div>
 </mat-dialog-content>
@@ -39,7 +40,7 @@ limitations under the License.
           color="primary"
           id="confirm-edit"
           [mat-dialog-close]="getJSON()"
-          i18n>Update</button>
+          i18n>Install</button>
   <button mat-button
           color="primary"
           [mat-dialog-close]="false"

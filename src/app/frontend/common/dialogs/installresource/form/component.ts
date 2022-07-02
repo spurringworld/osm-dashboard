@@ -32,7 +32,10 @@ const APP_LABEL_KEY = 'k8s-app';
 })
 export class DialogFormComponent extends ICanDeactivate implements OnInit, OnDestroy {
   namespaces: string[];
+	options: string[];
   form: FormGroup;
+	enforceSingleMesh: boolean = true;
+	atomic: boolean = false;
   readonly nameMaxLength = 24;
   labelArr: DeployLabel[] = [];
   private created_ = false;
@@ -58,6 +61,14 @@ export class DialogFormComponent extends ICanDeactivate implements OnInit, OnDes
 
   get labels(): FormArray {
     return this.form.get('labels') as FormArray;
+  }
+	
+	get timeout(): AbstractControl {
+	  return this.form.get('timeout');
+	}
+	
+  get chartPath(): AbstractControl {
+    return this.form.get('chartPath');
   }
 
   ngOnInit(): void {

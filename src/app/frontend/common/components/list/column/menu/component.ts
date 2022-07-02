@@ -136,4 +136,8 @@ export class MenuComponent implements ActionColumn {
   onDelete(): void {
     this.verber_.showDeleteDialog(this.typeMeta.kind, this.typeMeta, this.objectMeta);
   }
+	
+  onUninstall(): void {
+    this.verber_.showUninstallDialog(this.typeMeta.kind, this.typeMeta, this.objectMeta);
+  }
 }

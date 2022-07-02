@@ -62,6 +62,7 @@ export class ChipsComponent implements OnInit, OnChanges {
   @Input() map: any;
   @Input() displayAll = false;
   @Input() edit = false;
+  @Input() placeholder: any;
   keys: string[];
   isShowingAll = false;
   private _labelsLimit = 3;
