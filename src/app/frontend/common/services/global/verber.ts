@@ -20,6 +20,8 @@ import {filter, switchMap} from 'rxjs/operators';
 
 import {AlertDialog, AlertDialogConfig} from '../../dialogs/alert/dialog';
 import {DeleteResourceDialog} from '../../dialogs/deleteresource/dialog';
+import {UninstallResourceDialog} from '../../dialogs/uninstallresource/dialog';
+import {InstallResourceDialog} from '../../dialogs/installresource/dialog';
 import {EditResourceDialog} from '../../dialogs/editresource/dialog';
 import {RestartResourceDialog} from '../../dialogs/restartresource/dialog';
 import {ScaleResourceDialog} from '../../dialogs/scaleresource/dialog';
@@ -31,6 +33,8 @@ import {ResourceMeta} from './actionbar';
 @Injectable()
 export class VerberService {
   onDelete = new EventEmitter<boolean>();
+  onUninstall = new EventEmitter<boolean>();
+  onInstall = new EventEmitter<boolean>();
   onEdit = new EventEmitter<boolean>();
   onScale = new EventEmitter<boolean>();
   onTrigger = new EventEmitter<boolean>();
@@ -51,6 +55,31 @@ export class VerberService {
         })
       )
       .subscribe(_ => this.onDelete.emit(true), this.handleErrorResponse_.bind(this));
+  }
+	
+	showInstallDialog(displayName: string, typeMeta: TypeMeta, objectMeta: ObjectMeta): void {
+    const dialogConfig = this.getDialogConfig_(displayName, typeMeta, objectMeta);
+    this.dialog_
+      .open(InstallResourceDialog, dialogConfig)
+      .afterClosed()
+      .pipe(filter(doInstall => doInstall))
+      .subscribe(_ => this.onInstall.emit(true), this.handleErrorResponse_.bind(this));
+		
+	}
+	
+  showUninstallDialog(displayName: string, typeMeta: TypeMeta, objectMeta: ObjectMeta): void {
+    const dialogConfig = this.getDialogConfig_(displayName, typeMeta, objectMeta);
+    this.dialog_
+      .open(UninstallResourceDialog, dialogConfig)
+      .afterClosed()
+      .pipe(filter(doUninstall => doUninstall))
+      .pipe(
+        switchMap(_ => {
+          const url = RawResource.getUrl(typeMeta, objectMeta);
+          return this.http_.delete(url, {responseType: 'text'});
+        })
+      )
+      .subscribe(_ => this.onUninstall.emit(true), this.handleErrorResponse_.bind(this));
   }
 
   showEditDialog(displayName: string, typeMeta: TypeMeta, objectMeta: ObjectMeta): void {

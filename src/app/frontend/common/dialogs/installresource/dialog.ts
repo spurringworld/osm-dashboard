@@ -24,10 +24,10 @@ import {ResourceMeta} from '../../services/global/actionbar';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 @Component({
-  selector: 'kd-edit-resource-dialog',
+  selector: 'kd-install-resource-dialog',
   templateUrl: 'template.html',
 })
-export class EditResourceDialog implements OnInit, OnDestroy {
+export class InstallResourceDialog implements OnInit, OnDestroy {
   selectedMode = EditorMode.YAML;
   private unsubscribe_ = new Subject<void>();
 
@@ -36,7 +36,7 @@ export class EditResourceDialog implements OnInit, OnDestroy {
   modes = EditorMode;
 
   constructor(
-    public dialogRef: MatDialogRef<EditResourceDialog>,
+    public dialogRef: MatDialogRef<InstallResourceDialog>,
     @Inject(MAT_DIALOG_DATA) public data: ResourceMeta,
     private readonly http_: HttpClient
   ) {}
