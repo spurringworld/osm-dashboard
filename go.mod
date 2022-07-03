@@ -2,12 +2,13 @@ module github.com/kubernetes/dashboard
 
 go 1.17
 
+replace github.com/openservicemesh/osm v1.1.1 => github.com/flomesh-io/osm-edge v1.1.1-0.20220701114841-da16f62e0896
+
 require (
 	github.com/docker/distribution v2.8.1+incompatible
 	github.com/emicklei/go-restful/v3 v3.7.4
 	github.com/golang/glog v1.0.0
 	github.com/opencontainers/go-digest v1.0.0 // indirect
-	github.com/openservicemesh/osm v1.1.1
 	github.com/prometheus/client_golang v1.12.2
 	github.com/servicemeshinterface/smi-sdk-go v0.5.0
 	github.com/spf13/pflag v1.0.5
@@ -22,6 +23,11 @@ require (
 	k8s.io/apimachinery v0.24.1
 	k8s.io/client-go v0.24.1
 	k8s.io/heapster v1.5.4
+)
+
+require (
+	github.com/openservicemesh/osm v1.1.1
+	github.com/pkg/errors v0.9.1
 )
 
 require (
@@ -102,7 +108,6 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/opencontainers/image-spec v1.0.3-0.20211202183452-c5a74bcca799 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.34.0 // indirect
