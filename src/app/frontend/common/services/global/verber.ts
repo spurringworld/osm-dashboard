@@ -62,7 +62,12 @@ export class VerberService {
     this.dialog_
       .open(InstallResourceDialog, dialogConfig)
       .afterClosed()
-      .pipe(filter(doInstall => doInstall))
+      .pipe(filter(result => result))
+      .pipe(
+        switchMap(result => {
+          return this.http_.post('api/v1/osm/cmd/cli/install', JSON.parse(result), {headers: this.getHttpHeaders_(), responseType: 'text'});
+        })
+      )
       .subscribe(_ => this.onInstall.emit(true), this.handleErrorResponse_.bind(this));
 		
 	}
@@ -72,11 +77,10 @@ export class VerberService {
     this.dialog_
       .open(UninstallResourceDialog, dialogConfig)
       .afterClosed()
-      .pipe(filter(doUninstall => doUninstall))
+      .pipe(filter(result => result))
       .pipe(
-        switchMap(_ => {
-          const url = RawResource.getUrl(typeMeta, objectMeta);
-          return this.http_.delete(url, {responseType: 'text'});
+        switchMap(result => {
+          return this.http_.post('api/v1/osm/cmd/cli/uninstall', JSON.parse(result), {headers: this.getHttpHeaders_(), responseType: 'text'});
         })
       )
       .subscribe(_ => this.onUninstall.emit(true), this.handleErrorResponse_.bind(this));

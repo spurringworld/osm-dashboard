@@ -28,12 +28,7 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: 'template.html',
 })
 export class InstallResourceDialog implements OnInit, OnDestroy {
-  selectedMode = EditorMode.YAML;
   private unsubscribe_ = new Subject<void>();
-
-  @ViewChild('group', {static: true}) buttonToggleGroup: MatButtonToggleGroup;
-  text = '';
-  modes = EditorMode;
 
   constructor(
     public dialogRef: MatDialogRef<InstallResourceDialog>,
@@ -42,21 +37,6 @@ export class InstallResourceDialog implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const url = RawResource.getUrl(this.data.typeMeta, this.data.objectMeta);
-    this.http_
-      .get(url)
-      .toPromise()
-      .then(response => {
-        this.text = toYaml(response);
-      });
-
-    this.buttonToggleGroup.valueChange.pipe(takeUntil(this.unsubscribe_)).subscribe((selectedMode: EditorMode) => {
-      this.selectedMode = selectedMode;
-
-      if (this.text) {
-        this.updateText();
-      }
-    });
   }
 
   ngOnDestroy(): void {
@@ -66,29 +46,5 @@ export class InstallResourceDialog implements OnInit, OnDestroy {
 
   onNoClick(): void {
     this.dialogRef.close();
-  }
-
-  getJSON(): string {
-    if (this.selectedMode === EditorMode.YAML) {
-      return this.toRawJSON(fromYaml(this.text));
-    }
-
-    return this.text;
-  }
-
-  getSelectedMode(): string {
-    return this.buttonToggleGroup.value;
-  }
-
-  private updateText(): void {
-    if (this.selectedMode === EditorMode.YAML) {
-      this.text = toYaml(JSON.parse(this.text));
-    } else {
-      this.text = this.toRawJSON(fromYaml(this.text));
-    }
-  }
-
-  private toRawJSON(object: {}): string {
-    return JSON.stringify(object, null, '\t');
   }
 }

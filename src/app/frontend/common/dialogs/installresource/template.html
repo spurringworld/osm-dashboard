@@ -17,29 +17,13 @@ limitations under the License.
 <h2 mat-dialog-title
     i18n>OSM Install</h2>
 <mat-dialog-content class="kd-dialog-text">
-  <kd-dialog-form></kd-dialog-form>
-  <div class="kd-equivalent-block kd-muted kd-bg-card-dark"
-       fxLayoutAlign=" center">
-    <mat-icon>info</mat-icon>
-    <div>
-      <span i18n>This action is equivalent to:</span>
-      <code>
-				<br/><ng-container>osm install \</ng-container>
-				<br/><ng-container>--mesh-name "$osm_mesh_name" \</ng-container>
-				<br/><ng-container>--osm-namespace "$osm_namespace" \</ng-container>
-				<br/><ng-container>--set=osm.enablePermissiveTrafficPolicy=true \</ng-container>
-				<br/><ng-container>--set=osm.deployPrometheus=true|false \</ng-container>
-				<br/><ng-container>--set=osm.deployGrafana=true \</ng-container>
-				<br/><ng-container>--set=osm.deployJaeger=true</ng-container>
-			</code>
-    </div>
-  </div>
+  <kd-install-resource-form #installFrom></kd-install-resource-form>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button
           color="primary"
           id="confirm-edit"
-          [mat-dialog-close]="getJSON()"
+          [mat-dialog-close]="installFrom.install()"
           i18n>Install</button>
   <button mat-button
           color="primary"
