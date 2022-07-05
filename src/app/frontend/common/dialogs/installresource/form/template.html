@@ -95,6 +95,7 @@ limitations under the License.
 		 <kd-help-section>
 				<mat-form-field>
 					<input matInput
+								 type="number"
 								 formControlName="timeout"
 								 placeholder="Timeout"
 								 i18n-placeholder />
@@ -142,6 +143,7 @@ limitations under the License.
 				<mat-form-field>
 					<input matInput
 						 formControlName="tracingPort"
+						 type="number"
 						 placeholder="Port"
 						 (change)="updateOptionsTab()"
 						 i18n-placeholder />
@@ -182,6 +184,7 @@ limitations under the License.
 			<kd-help-section [hidden]="metricsDeploy.value">
 				<mat-form-field>
 					<input matInput
+						 type="number"
 						 formControlName="metricsPort"
 						 placeholder="Port"
 						 (change)="updateOptionsTab()"

@@ -134,7 +134,7 @@ export class DialogFormComponent extends ICanDeactivate implements OnInit, OnDes
 			metricsDeploy: [meshOptions.osm.deployPrometheus],
 			metricsPort: [meshOptions.osm.prometheus.port],
 			metricsAddress: [meshOptions.osm.prometheus.image],
-			timeout: ['300s'],
+			timeout: [300],
     });
     this.labelArr = [new DeployLabel(APP_LABEL_KEY, '', false), new DeployLabel()];
     // this.name.valueChanges.subscribe(v => {
