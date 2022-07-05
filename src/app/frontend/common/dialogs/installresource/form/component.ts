@@ -4,7 +4,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ICanDeactivate} from '@common/interfaces/candeactivate';
 import {NamespaceService} from '@common/services/global/namespace';
-import {validateUniqueName} from '@create/from/form/validator/uniquename.validator';
+import {validateUniqueMeshName} from '@create/from/form/validator/uniquemeshname.validator';
 import {FormValidators} from '@create/from/form/validator/validators';
 import {CreateNamespaceDialog} from '@create/from/form/createnamespace/dialog';
 import {DeployLabel} from '@create/from/form/deploylabel/deploylabel';
@@ -143,7 +143,7 @@ export class DialogFormComponent extends ICanDeactivate implements OnInit, OnDes
     // });
     this.namespace.valueChanges.pipe(takeUntil(this.unsubscribe_)).subscribe((namespace: string) => {
       this.name.clearAsyncValidators();
-      this.name.setAsyncValidators(validateUniqueName(this.http_, namespace));
+      this.name.setAsyncValidators(validateUniqueMeshName(this.http_, namespace));
       this.name.updateValueAndValidity();
     });
     this.http_.get('api/v1/namespace').subscribe((result: NamespaceList) => {
