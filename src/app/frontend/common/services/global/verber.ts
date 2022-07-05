@@ -13,11 +13,13 @@
 // limitations under the License.
 
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {EventEmitter, Injectable} from '@angular/core';
+import {EventEmitter, Injectable, Inject} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ObjectMeta, TypeMeta} from '@api/root.api';
-import {filter, switchMap} from 'rxjs/operators';
+import {filter, switchMap, map, mergeMap} from 'rxjs/operators';
+import {combineLatest, of} from 'rxjs';
 
+import {IConfig} from '@api/root.ui';
 import {AlertDialog, AlertDialogConfig} from '../../dialogs/alert/dialog';
 import {DeleteResourceDialog} from '../../dialogs/deleteresource/dialog';
 import {UninstallResourceDialog} from '../../dialogs/uninstallresource/dialog';
@@ -29,6 +31,8 @@ import {TriggerResourceDialog} from '../../dialogs/triggerresource/dialog';
 import {RawResource} from '../../resources/rawresource';
 
 import {ResourceMeta} from './actionbar';
+import {CsrfTokenService} from './csrftoken';
+import {CONFIG_DI_TOKEN} from '../../../index.config';
 
 @Injectable()
 export class VerberService {
@@ -40,7 +44,12 @@ export class VerberService {
   onTrigger = new EventEmitter<boolean>();
   onRestart = new EventEmitter<boolean>();
 
-  constructor(private readonly dialog_: MatDialog, private readonly http_: HttpClient) {}
+  constructor(
+		private readonly dialog_: MatDialog, 
+		private readonly http_: HttpClient, 
+		private readonly csrfToken_: CsrfTokenService,
+		@Inject(CONFIG_DI_TOKEN) private readonly CONFIG: IConfig
+	) {}
 
   showDeleteDialog(displayName: string, typeMeta: TypeMeta, objectMeta: ObjectMeta): void {
     const dialogConfig = this.getDialogConfig_(displayName, typeMeta, objectMeta);
@@ -62,9 +71,16 @@ export class VerberService {
     this.dialog_
       .open(InstallResourceDialog, dialogConfig)
       .afterClosed()
-      .pipe(filter(doInstall => doInstall))
-      .subscribe(_ => this.onInstall.emit(true), this.handleErrorResponse_.bind(this));
-		
+      .pipe(filter(result => result))
+      .pipe(
+        switchMap(result => {
+					return combineLatest([this.csrfToken_.getTokenForAction('osm'),of(result)]);
+        }),
+				mergeMap(([csrfToken, result]) => {
+					return this.http_.post('api/v1/osm/cmd/cli/install', JSON.parse(result), {headers: {[this.CONFIG.csrfHeaderName]: csrfToken.token}, responseType: 'text'});
+				})
+			)
+			.subscribe(_ => this.onInstall.emit(true), this.handleErrorResponse_.bind(this));
 	}
 	
   showUninstallDialog(displayName: string, typeMeta: TypeMeta, objectMeta: ObjectMeta): void {
@@ -72,11 +88,10 @@ export class VerberService {
     this.dialog_
       .open(UninstallResourceDialog, dialogConfig)
       .afterClosed()
-      .pipe(filter(doUninstall => doUninstall))
+      .pipe(filter(result => result))
       .pipe(
-        switchMap(_ => {
-          const url = RawResource.getUrl(typeMeta, objectMeta);
-          return this.http_.delete(url, {responseType: 'text'});
+        switchMap(result => {
+          return this.http_.post('api/v1/osm/cmd/cli/uninstall', JSON.parse(result), {headers: this.getHttpHeaders_(), responseType: 'text'});
         })
       )
       .subscribe(_ => this.onUninstall.emit(true), this.handleErrorResponse_.bind(this));
