@@ -170,6 +170,9 @@ func shouldDoCsrfValidation(req *restful.Request) bool {
 	if strings.HasPrefix(req.SelectedRoutePath(), "/api/v1/appdeployment/validate/") {
 		return false
 	}
+	if strings.HasPrefix(req.SelectedRoutePath(), "/api/v1/mesh/validate/") {
+		return false
+	}
 
 	return true
 }
