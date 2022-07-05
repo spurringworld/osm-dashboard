@@ -29,6 +29,7 @@ import cropUrl from 'crop-url';
 import {GlobalSettingsService} from '../../services/global/globalsettings';
 import {ChipDialog} from './chipdialog/dialog';
 import {KdStateService} from '@common/services/global/state';
+import {MatChipInputEvent} from '@angular/material/chips';
 
 export interface Chip {
   key: string;
@@ -58,8 +59,10 @@ const MAX_CHIP_VALUE_LENGTH = 63;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipsComponent implements OnInit, OnChanges {
-  @Input() map: StringMap | string[] | number[];
+  @Input() map: any;
   @Input() displayAll = false;
+  @Input() edit = false;
+  @Input() placeholder: any;
   keys: string[];
   isShowingAll = false;
   private _labelsLimit = 3;
@@ -144,6 +147,26 @@ export class ChipsComponent implements OnInit, OnChanges {
     this._matDialog.open(ChipDialog, dialogConfig);
   }
 
+  remove(key: any): void {
+    if (Array.isArray(this.map)) {
+			this.map.splice(key, 1);
+    } else {
+      delete this.map[key];
+		}
+  }
+	
+	add(event: any): void {
+		const value = (event.target.value || '').trim();
+		if (value) {
+			if (Array.isArray(this.map)) {
+				this.map.push(value);
+			} else {
+				this.map[value.split(":")[0]] = value.split(":")[1];
+			}
+		}
+		event.target.value = '';
+	}
+	
   private processMap() {
     if (!this.map) {
       this.map = [];

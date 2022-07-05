@@ -1,0 +1,250 @@
+<!--
+Copyright 2017 The Kubernetes Authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<form [formGroup]="form"
+      novalidate>
+	<mat-tab-group>
+		<mat-tab label="Basic">
+			<kd-help-section>
+				<mat-form-field>
+					<input matInput
+								 formControlName="name"
+								 placeholder="Mesh name"
+								 i18n-placeholder
+								 [maxlength]="nameMaxLength"
+								 kdUniqueName
+								 required />
+					<mat-progress-bar class="kd-deploy-form-progress"
+														[ngClass]="{'kd-deploy-form-progress-show': name.pending}"
+														mode="indeterminate">
+					</mat-progress-bar>
+					<mat-hint align="end">{{ name.value?.length }} / {{ nameMaxLength }}</mat-hint>
+					<mat-error *ngIf="name.errors?.uniqueName"
+										 i18n>
+						Deployment or service with this name already exists within namespace.
+					</mat-error>
+					<mat-error *ngIf="name.errors?.required"
+										 i18n> Mesh name is required. </mat-error>
+					<mat-error *ngIf="name.errors?.namePattern"
+										 i18n>
+						Mesh name must start with a lowercase letter and contain only lowercase letters, numbers, and '-' between
+						words.
+					</mat-error>
+				</mat-form-field>
+
+				<kd-user-help>
+					<ng-container i18n>An 'mesh' name for the new control plane instance (Default: osm)</ng-container>
+					<a href="https://kubernetes.io/docs/user-guide/labels/"
+						 target="_blank"
+						 tabindex="-1"
+						 i18n>
+						Learn more
+						<i class="material-icons">open_in_new</i>
+					</a>
+				</kd-user-help>
+			</kd-help-section>
+
+			<kd-help-section>
+				<mat-form-field>
+					<mat-select formControlName="namespace"
+											placeholder="Namespace"
+											i18n-placeholder
+											required>
+						<mat-option *ngFor="let namespace of namespaces"
+												[value]="namespace"> {{ namespace }} </mat-option>
+						<mat-option (click)="handleNamespaceDialog()"
+												i18n> Create a new namespace... </mat-option>
+					</mat-select>
+				</mat-form-field>
+				<kd-user-help>
+					<ng-container i18n>Namespaces let you partition resources into logically named groups.</ng-container>
+					<a href="https://kubernetes.io/docs/admin/namespaces/"
+						 target="_blank"
+						 tabindex="-1"
+						 i18n>
+						Learn more
+						<i class="material-icons">open_in_new</i>
+					</a>
+				</kd-user-help>
+			</kd-help-section>
+			<!-- <kd-help-section>
+				<mat-form-field>
+					<input matInput
+								 formControlName="chartPath"
+								 placeholder="Chart Path"
+								 i18n-placeholder
+								 required />
+				</mat-form-field>
+				<kd-user-help>
+					path to osm chart to override default chart
+				</kd-user-help>
+			</kd-help-section> -->
+		 <kd-help-section>
+				<mat-form-field>
+					<input matInput
+								 type="number"
+								 formControlName="timeout"
+								 placeholder="Timeout"
+								 i18n-placeholder />
+				</mat-form-field>
+				<kd-user-help>
+					Time to wait for installation and resources in a ready state, zero means no timeout (Default: 5*time.Minute)
+				</kd-user-help>
+			</kd-help-section>
+		 <!-- <kd-help-section>
+				<div>
+					<h6 style="font-weight: normal;margin-top: 0;margin-bottom: 10px;">Options</h6>
+					<kd-chips placeholder="key:value" [edit]="true" [map]="options"></kd-chips>
+				</div>
+				<kd-user-help>
+					Set arbitrary chart values (can specify multiple or separate values with commas: key1=val1,key2=val2)
+				</kd-user-help>
+			</kd-help-section> -->
+			<kd-help-section>
+				<mat-slide-toggle formControlName="tracingEnabled" (change)="updateOptionsTab()">
+					Tracing Enabled
+				</mat-slide-toggle>
+				<kd-user-help>
+				</kd-user-help>
+			</kd-help-section>
+			<kd-help-section [hidden]="!tracingEnabled.value">
+				<mat-slide-toggle formControlName="tracingDeploy" (change)="updateOptionsTab()">
+					Tracing Deploy
+				</mat-slide-toggle>
+				<kd-user-help>
+					If check off this option, You need to set a external tracing address.
+				</kd-user-help>
+			</kd-help-section>
+			<kd-help-section [hidden]="!tracingEnabled.value || tracingDeploy.value">
+				<mat-form-field>
+					<input matInput
+						 formControlName="tracingAddress"
+						 placeholder="Tracing Address"
+						 (change)="updateOptionsTab()"
+						 i18n-placeholder />
+				</mat-form-field>
+				<kd-user-help>
+				</kd-user-help>
+			</kd-help-section>
+			<kd-help-section [hidden]="!tracingEnabled.value || tracingDeploy.value">
+				<mat-form-field>
+					<input matInput
+						 formControlName="tracingPort"
+						 type="number"
+						 placeholder="Port"
+						 (change)="updateOptionsTab()"
+						 i18n-placeholder />
+				</mat-form-field>
+				<kd-user-help>
+				</kd-user-help>
+			</kd-help-section>
+			<kd-help-section [hidden]="!tracingEnabled.value || tracingDeploy.value">
+				<mat-form-field>
+					<input matInput
+						 formControlName="tracingEndpoint"
+						 placeholder="Endpoint"
+						 (change)="updateOptionsTab()"
+						 i18n-placeholder />
+				</mat-form-field>
+				<kd-user-help>
+				</kd-user-help>
+			</kd-help-section>
+			<kd-help-section>
+				<mat-slide-toggle formControlName="metricsDeploy">
+					Metrics Deploy
+				</mat-slide-toggle>
+				<kd-user-help>
+					If check off this option, You need to set a external metrics address.
+				</kd-user-help>
+			</kd-help-section>
+			<kd-help-section [hidden]="metricsDeploy.value">
+				<mat-form-field>
+					<input matInput
+						 formControlName="metricsAddress"
+						 placeholder="Metrics Address"
+						 (change)="updateOptionsTab()"
+						 i18n-placeholder />
+				</mat-form-field>
+				<kd-user-help>
+				</kd-user-help>
+			</kd-help-section>
+			<kd-help-section [hidden]="metricsDeploy.value">
+				<mat-form-field>
+					<input matInput
+						 type="number"
+						 formControlName="metricsPort"
+						 placeholder="Port"
+						 (change)="updateOptionsTab()"
+						 i18n-placeholder />
+				</mat-form-field>
+				<kd-user-help>
+				</kd-user-help>
+			</kd-help-section>
+			<kd-help-section>
+				<mat-slide-toggle formControlName="atomic">
+					Automatically
+				</mat-slide-toggle>
+				<kd-user-help>
+					Automatically clean up resources if installation fails
+				</kd-user-help>
+			</kd-help-section>
+			<kd-help-section>
+				<mat-slide-toggle formControlName="enforceSingleMesh">
+					Enforce Single Mesh
+				</mat-slide-toggle>
+				<kd-user-help>
+					Enforce only deploying one mesh in the cluster
+				</kd-user-help>
+			</kd-help-section>
+			<div class="kd-equivalent-block kd-muted kd-bg-card-dark"
+					 fxLayoutAlign=" center">
+				<mat-icon>info</mat-icon>
+				<div>
+					<span i18n>This action is equivalent to:</span>
+					<code>
+						<br/><ng-container>osm install \</ng-container>
+						<br/><ng-container>--mesh-name "$osm_mesh_name" \</ng-container>
+						<br/><ng-container>--osm-namespace "$osm_namespace" \</ng-container>
+						<br/><ng-container>--set=osm.enablePermissiveTrafficPolicy=true \</ng-container>
+						<br/><ng-container>--set=osm.deployPrometheus=true|false \</ng-container>
+						<br/><ng-container>--set=osm.deployGrafana=true \</ng-container>
+						<br/><ng-container>--set=osm.deployJaeger=true</ng-container>
+					</code>
+				</div>
+			</div>
+			
+		</mat-tab>
+		<mat-tab label="Options" >
+			<mat-button-toggle-group #group="matButtonToggleGroup" style="margin-top: 20px;">
+				<mat-button-toggle [value]="modes.YAML"
+													 [checked]="true">YAML</mat-button-toggle>
+				<mat-button-toggle [value]="modes.JSON">JSON</mat-button-toggle>
+			</mat-button-toggle-group>
+			<kd-text-input [(text)]="text"
+										 [prettify]="false"
+										 (change)="updateBasicTab()"
+										 [mode]="getSelectedMode()"></kd-text-input>
+			<div class="kd-equivalent-block kd-muted kd-bg-card-dark"
+					 fxLayoutAlign=" center">
+				<mat-icon>info</mat-icon>
+				<div>
+					<span i18n>This options variable refer to the</span>
+					<a>&lt;OSM options doc&gt;</a>
+				</div>
+			</div>
+		</mat-tab>
+	</mat-tab-group>
+</form>

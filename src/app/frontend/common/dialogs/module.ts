@@ -20,13 +20,15 @@ import {ComponentsModule} from '../components/module';
 
 import {AlertDialog} from './alert/dialog';
 import {DeleteResourceDialog} from './deleteresource/dialog';
+import {UninstallResourceDialog} from './uninstallresource/dialog';
+import {InstallResourceDialog} from './installresource/dialog';
 import {LogsDownloadDialog} from './download/dialog';
 import {EditResourceDialog} from './editresource/dialog';
 import {RestartResourceDialog} from './restartresource/dialog';
 import {ScaleResourceDialog} from './scaleresource/dialog';
 import {TriggerResourceDialog} from './triggerresource/dialog';
 import {PreviewDeploymentDialog} from './previewdeployment/dialog';
-import {DialogFormModule} from './editresource/form/module';
+import {DialogFormModule} from './installresource/form/module';
 
 @NgModule({
   imports: [SharedModule, ComponentsModule, DialogFormModule],
@@ -34,6 +36,8 @@ import {DialogFormModule} from './editresource/form/module';
     AlertDialog,
     EditResourceDialog,
     DeleteResourceDialog,
+		UninstallResourceDialog,
+		InstallResourceDialog,
     LogsDownloadDialog,
     RestartResourceDialog,
     ScaleResourceDialog,
@@ -45,6 +49,8 @@ import {DialogFormModule} from './editresource/form/module';
     AlertDialog,
     EditResourceDialog,
     DeleteResourceDialog,
+		UninstallResourceDialog,
+		InstallResourceDialog,
     LogsDownloadDialog,
     RestartResourceDialog,
     ScaleResourceDialog,
@@ -55,6 +61,8 @@ import {DialogFormModule} from './editresource/form/module';
     AlertDialog,
     EditResourceDialog,
     DeleteResourceDialog,
+		UninstallResourceDialog,
+		InstallResourceDialog,
     LogsDownloadDialog,
     RestartResourceDialog,
     ScaleResourceDialog,

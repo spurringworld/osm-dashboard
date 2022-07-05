@@ -33,6 +33,7 @@ export class MeshConfigDetailComponent implements OnInit, OnDestroy {
   podListEndpoint: string;
   ingressListEndpoint: string;
   eventListEndpoint: string;
+	logLevels = [{value:'error',label:'Error'},{value:'info',label:'Info'}];
 
   private readonly endpoint_ = EndpointManager.resource(Resource.meshconfig, true);
   private readonly unsubscribe_ = new Subject<void>();

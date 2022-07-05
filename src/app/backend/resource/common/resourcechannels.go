@@ -30,6 +30,7 @@ import (
 	osmconfigv1alph2 "github.com/openservicemesh/osm/pkg/apis/config/v1alpha2"
 	smiaccessv1alpha3 "github.com/servicemeshinterface/smi-sdk-go/pkg/apis/access/v1alpha3"
 	smispecsv1alpha4 "github.com/servicemeshinterface/smi-sdk-go/pkg/apis/specs/v1alpha4"
+	smisplitv1alpha2 "github.com/servicemeshinterface/smi-sdk-go/pkg/apis/split/v1alpha2"
 
 	apiextensionsclientset "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
 	metaV1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -38,6 +39,7 @@ import (
 	osmconfigclientset "github.com/openservicemesh/osm/pkg/gen/client/config/clientset/versioned"
 	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
 	smispecsclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/specs/clientset/versioned"
+	smisplitclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/split/clientset/versioned"
 
 	"github.com/kubernetes/dashboard/src/app/backend/api"
 )
@@ -138,6 +140,9 @@ type ResourceChannels struct {
 	// List and error channels to HttpRouteGroups.
 	HttpRouteGroupList HttpRouteGroupListChannel
 
+	// List and error channels to TrafficSplits.
+	TrafficSplitList TrafficSplitListChannel
+
 	// List and error channels to TrafficTargets.
 	TrafficTargetList TrafficTargetListChannel
 
@@ -188,7 +193,6 @@ type HttpRouteGroupListChannel struct {
 // must be read numReads times.
 func GetHttpRouteGroupListChannel(smiSpecsClient smispecsclientset.Interface, nsQuery *NamespaceQuery,
 	numReads int) HttpRouteGroupListChannel {
-
 	channel := HttpRouteGroupListChannel{
 		List:  make(chan *smispecsv1alpha4.HTTPRouteGroupList, numReads),
 		Error: make(chan error, numReads),
@@ -196,6 +200,42 @@ func GetHttpRouteGroupListChannel(smiSpecsClient smispecsclientset.Interface, ns
 	go func() {
 		list, err := smiSpecsClient.SpecsV1alpha4().HTTPRouteGroups(nsQuery.ToRequestParam()).List(context.TODO(), api.ListEverything)
 		var filteredItems []smispecsv1alpha4.HTTPRouteGroup
+		for _, item := range list.Items {
+			if nsQuery.Matches(item.ObjectMeta.Namespace) {
+				filteredItems = append(filteredItems, item)
+			}
+		}
+		list.Items = filteredItems
+		for i := 0; i < numReads; i++ {
+			channel.List <- list
+			channel.Error <- err
+		}
+	}()
+
+	return channel
+}
+
+// TrafficSplitListChannel is a list and error channels to TrafficSplit.
+type TrafficSplitListChannel struct {
+	List  chan *smisplitv1alpha2.TrafficSplitList
+	Error chan error
+}
+
+// GetTrafficSplitListChannel returns a pair of channels to a TrafficSplit list and errors that both
+// must be read numReads times.
+func GetTrafficSplitListChannel(smiSplitClient smisplitclientset.Interface, nsQuery *NamespaceQuery,
+	numReads int) TrafficSplitListChannel {
+	println("===========>> >>> >>> GetTrafficSplitListChannel")
+	channel := TrafficSplitListChannel{
+		List:  make(chan *smisplitv1alpha2.TrafficSplitList, numReads),
+		Error: make(chan error, numReads),
+	}
+
+	go func() {
+		println("bbbb")
+		list, err := smiSplitClient.SplitV1alpha2().TrafficSplits(nsQuery.ToRequestParam()).List(context.TODO(), api.ListEverything)
+		println("cccc")
+		var filteredItems []smisplitv1alpha2.TrafficSplit
 		for _, item := range list.Items {
 			if nsQuery.Matches(item.ObjectMeta.Namespace) {
 				filteredItems = append(filteredItems, item)

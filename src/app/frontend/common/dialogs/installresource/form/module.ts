@@ -17,6 +17,7 @@ import {NgModule} from '@angular/core';
 import {SharedModule} from '../../../../shared.module';
 import {DialogFormComponent} from './component';
 import {CreateFromFormModule} from '@create/from/form/module';
+import {ComponentsModule} from '../../../components/module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {CreateFromFormModule} from '@create/from/form/module';
   imports: [
 		CommonModule, 
 		SharedModule,
+		ComponentsModule,
 		CreateFromFormModule
 	],
   exports: [DialogFormComponent],

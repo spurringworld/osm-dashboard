@@ -26,6 +26,7 @@ import (
 
 	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
 	smispecsclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/specs/clientset/versioned"
+	smisplitclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/split/clientset/versioned"
 
 	osmconfigclientset "github.com/openservicemesh/osm/pkg/gen/client/config/clientset/versioned"
 
@@ -49,11 +50,13 @@ type ClientManager interface {
 	APIExtensionsClient(req *restful.Request) (apiextensionsclientset.Interface, error)
 	PluginClient(req *restful.Request) (pluginclientset.Interface, error)
 	SmiSpecsClient(req *restful.Request) (smispecsclientset.Interface, error)
+	SmiSplitClient(req *restful.Request) (smisplitclientset.Interface, error)
 	SmiAccessClient(req *restful.Request) (smiaccessclientset.Interface, error)
 	OsmConfigClient(req *restful.Request) (osmconfigclientset.Interface, error)
 	InsecureAPIExtensionsClient() apiextensionsclientset.Interface
 	InsecurePluginClient() pluginclientset.Interface
 	InsecureSmiSpecsClient() smispecsclientset.Interface
+	InsecureSmiSplitClient() smisplitclientset.Interface
 	InsecureSmiAccessClient() smiaccessclientset.Interface
 	InsecureOsmConfigClient() osmconfigclientset.Interface
 	CanI(req *restful.Request, ssar *v1.SelfSubjectAccessReview) bool

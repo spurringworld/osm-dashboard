@@ -34,6 +34,7 @@ import (
 
 	smiaccessclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/access/clientset/versioned"
 	smispecsclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/specs/clientset/versioned"
+	smisplitclientset "github.com/servicemeshinterface/smi-sdk-go/pkg/gen/client/split/clientset/versioned"
 
 	osmconfigclientset "github.com/openservicemesh/osm/pkg/gen/client/config/clientset/versioned"
 
@@ -96,6 +97,7 @@ type clientManager struct {
 	// SMI Access client created without providing auth info. It uses permissions granted to
 	// service account used by dashboard or kubeconfig file if it was passed during dashboard init.
 	insecureSmiSpecsClient smispecsclientset.Interface
+	insecureSmiSplitClient smisplitclientset.Interface
 	// SMI Access client created without providing auth info. It uses permissions granted to
 	// service account used by dashboard or kubeconfig file if it was passed during dashboard init.
 	insecureSmiAccessClient smiaccessclientset.Interface
@@ -132,6 +134,17 @@ func (self *clientManager) SmiSpecsClient(req *restful.Request) (smispecsclients
 		return self.secureSmiSpecsClient(req)
 	}
 	return self.InsecureSmiSpecsClient(), nil
+}
+
+func (self *clientManager) SmiSplitClient(req *restful.Request) (smisplitclientset.Interface, error) {
+	if req == nil {
+		return nil, errors.NewBadRequest("request can not be nil")
+	}
+
+	if self.isSecureModeEnabled(req) {
+		return self.secureSmiSplitClient(req)
+	}
+	return self.InsecureSmiSplitClient(), nil
 }
 
 func (self *clientManager) SmiAccessClient(req *restful.Request) (smiaccessclientset.Interface, error) {
@@ -229,6 +242,9 @@ func (self *clientManager) InsecurePluginClient() pluginclientset.Interface {
 // if it was passed during dashboard init.
 func (self *clientManager) InsecureSmiSpecsClient() smispecsclientset.Interface {
 	return self.insecureSmiSpecsClient
+}
+func (self *clientManager) InsecureSmiSplitClient() smisplitclientset.Interface {
+	return self.insecureSmiSplitClient
 }
 
 // InsecureSmiAccessClient returns plugin client that was created without providing
@@ -541,6 +557,20 @@ func (self *clientManager) secureSmiSpecsClient(req *restful.Request) (smispecsc
 	return client, nil
 }
 
+func (self *clientManager) secureSmiSplitClient(req *restful.Request) (smisplitclientset.Interface, error) {
+	cfg, err := self.secureConfig(req)
+	if err != nil {
+		return nil, err
+	}
+
+	client, err := smisplitclientset.NewForConfig(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return client, nil
+}
+
 func (self *clientManager) secureSmiAccessClient(req *restful.Request) (smiaccessclientset.Interface, error) {
 	cfg, err := self.secureConfig(req)
 	if err != nil {
@@ -674,6 +704,11 @@ func (self *clientManager) initInsecureClients() {
 		panic(err)
 	}
 
+	smisplitclient, err := smisplitclientset.NewForConfig(self.insecureConfig)
+	if err != nil {
+		panic(err)
+	}
+
 	smiaccessclient, err := smiaccessclientset.NewForConfig(self.insecureConfig)
 	if err != nil {
 		panic(err)
@@ -688,6 +723,7 @@ func (self *clientManager) initInsecureClients() {
 	self.insecureAPIExtensionsClient = apiextensionsclient
 	self.insecurePluginClient = pluginclient
 	self.insecureSmiSpecsClient = smispecsclient
+	self.insecureSmiSplitClient = smisplitclient
 	self.insecureSmiAccessClient = smiaccessclient
 	self.insecureOsmConfigClient = osmconfigclient
 }

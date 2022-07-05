@@ -40,6 +40,7 @@ import (
 	clientapi "github.com/kubernetes/dashboard/src/app/backend/client/api"
 	"github.com/kubernetes/dashboard/src/app/backend/errors"
 	"github.com/kubernetes/dashboard/src/app/backend/integration"
+	"github.com/kubernetes/dashboard/src/app/backend/osmcli"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/clusterrole"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/clusterrolebinding"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/common"
@@ -71,6 +72,7 @@ import (
 	resourceService "github.com/kubernetes/dashboard/src/app/backend/resource/service"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/serviceaccount"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/httproutegroup"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/trafficsplit"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/traffictarget"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/statefulset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/storageclass"
@@ -134,6 +136,9 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 
 	systemBannerHandler := systembanner.NewSystemBannerHandler(sbManager)
 	systemBannerHandler.Install(apiV1Ws)
+
+	osmCliHandler := osmcli.NewOsmCliHandler(cManager)
+	osmCliHandler.Install(apiV1Ws)
 
 	apiV1Ws.Route(
 		apiV1Ws.GET("csrftoken/{action}").
@@ -660,6 +665,10 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 			To(apiHandler.handleHttpRouteGroupList).
 			Writes(httproutegroup.HttpRouteGroupList{}))
 	apiV1Ws.Route(
+		apiV1Ws.GET("/trafficsplit").
+			To(apiHandler.handleGetTrafficSplitList).
+			Writes(trafficsplit.TrafficSplitList{}))
+	apiV1Ws.Route(
 		apiV1Ws.GET("/traffictarget").
 			To(apiHandler.handleGetTrafficTargetList).
 			Writes(traffictarget.TrafficTargetList{}))
@@ -681,6 +690,11 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 		apiV1Ws.GET("/meshconfig/{namespace}/{meshconfig}/event").
 			To(apiHandler.handleGetMeshConfigControllerEvents).
 			Writes(common.EventList{}))
+	apiV1Ws.Route(
+		apiV1Ws.POST("/mesh/validate/name").
+			To(apiHandler.handleMeshValidity).
+			Reads(validation.MeshNameValidityMetadata{}).
+			Writes(validation.MeshNameValidity{}))
 
 	apiV1Ws.Route(
 		apiV1Ws.GET("/crd").
@@ -1033,6 +1047,22 @@ func (apiHandler *APIHandler) handleHttpRouteGroupList(request *restful.Request,
 	response.WriteHeaderAndEntity(http.StatusOK, result)
 }
 
+func (apiHandler *APIHandler) handleGetTrafficSplitList(request *restful.Request, response *restful.Response) {
+	smiSplitClient, err := apiHandler.cManager.SmiSplitClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	namespace := parseNamespacePathParameter(request)
+	dataSelect := parser.ParseDataSelectPathParameter(request)
+	result, err := trafficsplit.GetTrafficSplitList(smiSplitClient, namespace, dataSelect)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
 func (apiHandler *APIHandler) handleGetTrafficTargetList(request *restful.Request, response *restful.Response) {
 	smiAccessClient, err := apiHandler.cManager.SmiAccessClient(request)
 	if err != nil {
@@ -1100,6 +1130,28 @@ func (apiHandler *APIHandler) handleGetMeshConfigControllerEvents(request *restf
 		return
 	}
 	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleMeshValidity(request *restful.Request, response *restful.Response) {
+	osmConfigClient, err := apiHandler.cManager.OsmConfigClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	spec := new(validation.MeshNameValidityMetadata)
+	if err := request.ReadEntity(spec); err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	validity, err := validation.ValidateMeshName(spec, osmConfigClient)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	response.WriteHeaderAndEntity(http.StatusOK, validity)
 }
 
 func (apiHandler *APIHandler) handleGetServiceAccountList(request *restful.Request, response *restful.Response) {

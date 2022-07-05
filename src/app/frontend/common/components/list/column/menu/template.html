@@ -52,9 +52,15 @@ limitations under the License.
           (click)="onRestart()"
           i18n>Restart</button>
   <button mat-menu-item
+	        *ngIf="typeMeta.kind!='meshconfig'"
           id="delete"
           (click)="onDelete()"
           i18n>Delete</button>
+  <button mat-menu-item
+          *ngIf="typeMeta.kind=='meshconfig'"
+          id="uninstall"
+          (click)="onUninstall()"
+          i18n>Uninstall</button>
 </mat-menu>
 
 <a mat-icon-button
