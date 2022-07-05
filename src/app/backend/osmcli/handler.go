@@ -1,11 +1,11 @@
 package osmcli
 
 import (
-	"fmt"
-	"time"
 	"bytes"
 	"context"
+	"fmt"
 	"net/http"
+	"time"
 
 	_ "embed" // required to embed resources
 
@@ -17,21 +17,19 @@ import (
 	helm "helm.sh/helm/v3/pkg/action"
 	"helm.sh/helm/v3/pkg/chart/loader"
 
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8sapierrors "k8s.io/apimachinery/pkg/api/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 
 	"github.com/openservicemesh/osm/pkg/constants"
 
-	backenderrors "github.com/kubernetes/dashboard/src/app/backend/errors"
-	"github.com/kubernetes/dashboard/src/app/backend/api"
 	restful "github.com/emicklei/go-restful/v3"
+	"github.com/kubernetes/dashboard/src/app/backend/api"
 	clientapi "github.com/kubernetes/dashboard/src/app/backend/client/api"
+	backenderrors "github.com/kubernetes/dashboard/src/app/backend/errors"
 )
 
-const (
-
-)
+const ()
 
 var settings = cli.New()
 
@@ -73,7 +71,7 @@ func (self OsmCliHandler) handleOsmInstall(request *restful.Request, response *r
 	}
 
 	actionConfig := new(helm.Configuration)
-	_ = actionConfig.Init(settings.RESTClientGetter(), settings.Namespace(), "secret", debug)
+	_ = actionConfig.Init(settings.RESTClientGetter(), osmInstallSpec.Namespace, "secret", debug)
 
 	installClient := helm.NewInstall(actionConfig)
 
@@ -89,8 +87,9 @@ func (self OsmCliHandler) handleOsmInstall(request *restful.Request, response *r
 	values["deployJaeger"] = true
 	values["deployPrometheus"] = true
 	values["enablePermissiveTrafficPolicy"] = true
-	values["enforceSingleMesh"] = true
+	values["enforceSingleMesh"] = osmInstallSpec.EnforceSingleMesh
 	values["meshName"] = osmInstallSpec.MeshName
+	values["osmNamespace"] = osmInstallSpec.Namespace
 
 	chartRequested, err := loader.LoadArchive(bytes.NewReader(chartTGZSource))
 	if err != nil {
@@ -109,7 +108,6 @@ func (self OsmCliHandler) handleOsmInstall(request *restful.Request, response *r
 			backenderrors.HandleInternalError(response, err)
 			return
 		}
-
 		pods, _ := k8sClient.CoreV1().Pods(settings.Namespace()).List(context.Background(), metav1.ListOptions{})
 
 		for _, pod := range pods.Items {
