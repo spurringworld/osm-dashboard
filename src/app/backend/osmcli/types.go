@@ -3,14 +3,17 @@ package osmcli
 type OsmInstallSpec struct {
 	MeshName string `json:"meshName"`
 
-	Namespace string `json:"namespace"`	
+	Namespace string `json:"namespace"`
+
+	EnforceSingleMesh bool `json:"enforceSingleMesh"`
 }
 
 func NewOsmInstallSpec() OsmInstallSpec {
-   osmInstallSpec := OsmInstallSpec{}
-   osmInstallSpec.MeshName = "osm"
-   osmInstallSpec.Namespace = "osm-system"
-   return osmInstallSpec
+	osmInstallSpec := OsmInstallSpec{}
+	osmInstallSpec.MeshName = "osm"
+	osmInstallSpec.Namespace = "osm-system"
+	osmInstallSpec.EnforceSingleMesh = true
+	return osmInstallSpec
 }
 
 type OsmUninstallSpec struct {
@@ -20,8 +23,8 @@ type OsmUninstallSpec struct {
 }
 
 func NewOsmUninstallSpec() OsmUninstallSpec {
-   osmUninstallSpec := OsmUninstallSpec{}
-   osmUninstallSpec.MeshName = "osm"
-   osmUninstallSpec.Namespace = "osm-system"
-   return osmUninstallSpec
+	osmUninstallSpec := OsmUninstallSpec{}
+	osmUninstallSpec.MeshName = "osm"
+	osmUninstallSpec.Namespace = "osm-system"
+	return osmUninstallSpec
 }
