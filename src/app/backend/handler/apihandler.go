@@ -685,6 +685,11 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 		apiV1Ws.GET("/meshconfig/{namespace}/{meshconfig}/event").
 			To(apiHandler.handleGetMeshConfigControllerEvents).
 			Writes(common.EventList{}))
+	apiV1Ws.Route(
+		apiV1Ws.POST("/mesh/validate/name").
+			To(apiHandler.handleMeshValidity).
+			Reads(validation.MeshNameValidityMetadata{}).
+			Writes(validation.MeshNameValidity{}))
 
 	apiV1Ws.Route(
 		apiV1Ws.GET("/crd").
@@ -1104,6 +1109,28 @@ func (apiHandler *APIHandler) handleGetMeshConfigControllerEvents(request *restf
 		return
 	}
 	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleMeshValidity(request *restful.Request, response *restful.Response) {
+	osmConfigClient, err := apiHandler.cManager.OsmConfigClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	spec := new(validation.MeshNameValidityMetadata)
+	if err := request.ReadEntity(spec); err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	validity, err := validation.ValidateMeshName(spec, osmConfigClient)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+
+	response.WriteHeaderAndEntity(http.StatusOK, validity)
 }
 
 func (apiHandler *APIHandler) handleGetServiceAccountList(request *restful.Request, response *restful.Response) {
