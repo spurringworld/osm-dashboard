@@ -72,6 +72,7 @@ import (
 	resourceService "github.com/kubernetes/dashboard/src/app/backend/resource/service"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/serviceaccount"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/httproutegroup"
+	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/trafficsplit"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/smi/traffictarget"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/statefulset"
 	"github.com/kubernetes/dashboard/src/app/backend/resource/storageclass"
@@ -664,6 +665,10 @@ func CreateHTTPAPIHandler(iManager integration.IntegrationManager, cManager clie
 			To(apiHandler.handleHttpRouteGroupList).
 			Writes(httproutegroup.HttpRouteGroupList{}))
 	apiV1Ws.Route(
+		apiV1Ws.GET("/trafficsplit").
+			To(apiHandler.handleGetTrafficSplitList).
+			Writes(trafficsplit.TrafficSplitList{}))
+	apiV1Ws.Route(
 		apiV1Ws.GET("/traffictarget").
 			To(apiHandler.handleGetTrafficTargetList).
 			Writes(traffictarget.TrafficTargetList{}))
@@ -1030,6 +1035,22 @@ func (apiHandler *APIHandler) handleHttpRouteGroupList(request *restful.Request,
 	namespace := parseNamespacePathParameter(request)
 	dataSelect := parser.ParseDataSelectPathParameter(request)
 	result, err := httproutegroup.GetHttpRouteGroupList(smiSpecsClient, namespace, dataSelect)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	response.WriteHeaderAndEntity(http.StatusOK, result)
+}
+
+func (apiHandler *APIHandler) handleGetTrafficSplitList(request *restful.Request, response *restful.Response) {
+	smiSplitClient, err := apiHandler.cManager.SmiSplitClient(request)
+	if err != nil {
+		errors.HandleInternalError(response, err)
+		return
+	}
+	namespace := parseNamespacePathParameter(request)
+	dataSelect := parser.ParseDataSelectPathParameter(request)
+	result, err := trafficsplit.GetTrafficSplitList(smiSplitClient, namespace, dataSelect)
 	if err != nil {
 		errors.HandleInternalError(response, err)
 		return

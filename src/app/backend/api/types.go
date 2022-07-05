@@ -150,6 +150,7 @@ const (
 	ResourceKindNetworkPolicy            = "networkpolicy"
 	ResourceKindIngressClass             = "ingressclass"
 	ResourceKindHttpRouteGroup           = "httproutegroup"
+	ResourceKindTrafficSplit             = "trafficsplit"
 	ResourceKindTrafficTarget            = "traffictarget"
 	ResourceKindMeshConfig               = "meshconfig"
 )
@@ -205,6 +206,7 @@ const (
 	ClientTypeNetworkingClient    = "networkingclient"
 	ClientTypePluginsClient       = "plugin"
 	ClientTypeSmiSpecsClient      = "smispecsclient"
+	ClientTypeSmiSplitClient      = "smisplitclient"
 	ClientTypeSmiAccessClient     = "smiaccessclient"
 	ClientTypeOsmConfigClient     = "osmconfigclient"
 )
@@ -256,6 +258,7 @@ var KindToAPIMapping = map[string]APIMapping{
 	ResourceKindRoleBinding:              {"rolebindings", ClientTypeRbacClient, true},
 	ResourceKindPlugin:                   {"plugins", ClientTypePluginsClient, true},
 	ResourceKindHttpRouteGroup:           {"httproutegroups", ClientTypeSmiSpecsClient, true},
+	ResourceKindTrafficSplit:             {"trafficsplit", ClientTypeSmiSplitClient, true},
 	ResourceKindTrafficTarget:            {"traffictargets", ClientTypeSmiAccessClient, true},
 	ResourceKindMeshConfig:               {"meshconfigs", ClientTypeOsmConfigClient, true},
 }
